@@ -1,0 +1,29 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <header class="jumbotron">
+        <div class="container text-center">
+            <h1><span class="glyphicon glyphicon-pencil">&nbsp;</span>Welcome to O-Art Gallery</h1>
+            <p>View our insightful collection of Artworks</p>
+            <a class="btn btn-info" href="/artworks/new">Add New Artwork</a>
+        </div>
+    </header>
+
+    <div class="row text-center" style="display:flex; flex-wrap:wrap;">
+
+        <% artworks.forEach(function(artwork){ %>
+        <div class="col-md-2 col-sm-4 col-xs-6">
+            <div class="thumbnail">
+                <img src="<%= artwork.image %>" alt="<%= artwork.title %>">
+                <h2 class="caption text-center">
+                    <%= artwork.title %>
+                </h2>
+                <p><a href="/artworks/<%= artwork.title %>" class="btn btn-info">More Info...</a></p>
+            </div>
+        </div>
+        <% }); %>
+        
+    </div>
+</div>
+
+<% include ../partials/footer %>
