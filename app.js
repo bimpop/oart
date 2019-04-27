@@ -2,36 +2,29 @@
 var express         = require('express'),
     app             = express(),
     bodyParser      = require('body-parser'),
-    methodOverride  = require('method-override');
+    methodOverride  = require('method-override'),
+    mongoose        = require('mongoose');
 
-// other module setups
+// connect to database
+mongoose.connect('mongodb://localhost/oart', {useNewUrlParser: true});
+
+// set to use native findOneAndUpdate() rather than deprecated findAndModify()
+mongoose.set('useFindAndModify', false);
+
+// other modules setups
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 
-var artworks = [
-    {
-        title: 'Incandescensce',
-        image: '/pics/bimbo1.jpg',
-        desc: 'Radiant beauty'
-    },
-    {
-        title: 'Transluscence',
-        image: '/pics/bimbo2.jpg',
-        desc: 'Check me out'
-    },
-    {
-        title: 'Infinity',
-        image: '/pics/bimbo3.jpg',
-        desc: 'You can\'t touch this'
-    },
-    {
-        title: 'Exquisite',
-        image: '/pics/bimbo4.jpg',
-        desc: 'Prince charming'
-    }
-];
+// artwork schema
+var artworkSchema = new mongoose.Schema({
+    title: String,
+    image: String,
+    desc: String
+});
+// artwork model from schema
+var Artwork = mongoose.model('Artwork', artworkSchema);
 
 // ROUTES
 // homepage
@@ -41,7 +34,17 @@ app.get('/', function(req, res){
 
 // artworks index route
 app.get('/artworks', function(req, res){
-    res.render('artworks/index', {artworks: artworks});
+    // get all artworks from DB first
+    Artwork.find({}, function(err, artworks){
+        if(err){
+            console.log(err);
+            // redirect to index route
+            res.redirect('/artworks');
+        }else {
+            // render all found artworks
+            res.render('artworks/index', {artworks: artworks});
+        }
+    });
 });
 
 // artworks new route
@@ -51,55 +54,78 @@ app.get('/artworks/new', function(req, res) {
 
 // artworks create route
 app.post('/artworks', function(req, res){
+    // collect form data
     var newArtwork = req.body.artwork;
-    artworks.unshift(newArtwork);
-    res.redirect('artworks');
+    // add collected data to DB
+    Artwork.create(newArtwork, function(err, newArtwork){
+        if(err){
+            console.log(err);
+            // redirect to index route
+            res.redirect('/artworks');
+        }else {
+            // redirect to index route
+            res.redirect('/artworks'); 
+        }
+    });
 });
 
 // artworks show route
-app.get('/artworks/:title', function(req, res){
-    artworks.forEach(function(artwork){
-        if(req.params.title == artwork.title){
-            res.render('artworks/show', {artwork: artwork});
-        }else {
-            artwork;
+app.get('/artworks/:id', function(req, res){
+    // find the artwork with the provided id
+    Artwork.findById(req.params.id, function(err, foundArtwork){
+        if (err) {
+            console.log(err);
+            // redirect to index route
+            res.redirect('/artworks');
+        } else {
+            // render found artwork
+            res.render('artworks/show', {artwork: foundArtwork});
         }
     });
 });
 
 // artwork edit route
-app.get('/artworks/:title/edit', function(req, res){
-    artworks.forEach(function(artwork){
-        if(req.params.title == artwork.title){
-            res.render('artworks/edit', {artwork: artwork});
-        }else {
-            artwork;
+app.get('/artworks/:id/edit', function(req, res){
+    // find artwork with the provided id
+    Artwork.findById(req.params.id, function(err, editedArtwork){
+        if (err) {
+            console.log(err);
+            // redirect to index route
+            res.redirect('/artworks');
+        } else {
+            // render foundArtwork's edit form
+            res.render('artworks/edit', {artwork: editedArtwork});
         }
     });
 });
 
 // artwork update route
-app.put('/artworks/:title', function(req, res){
-    for(let i=0; i<artworks.length; i++){
-        if(req.params.title == artworks[i].title){
-            artworks.splice(i, 1, req.body.artwork);
-            res.redirect('/artworks/' + req.params.title);
-        }else {
-            i;
+app.put('/artworks/:id', function(req, res){
+    // find artwork with provided id
+    Artwork.findByIdAndUpdate(req.params.id, req.body.artwork, function(err, updatedArtwork){
+        if (err) {
+            console.log(err);
+            // redirect to index route
+            res.redirect('/artworks');
+        } else {
+            // redirect to show route
+            res.redirect('/artworks/' + req.params.id);
         }
-    }
+    });
 });
 
 // artwork destroy route
-app.delete('/artworks/:title', function(req, res){
-    for(let i=0; i<artworks.length; i++){
-        if(req.params.title == artworks[i].title){
-            artworks.splice(i, 1);
-            res.redirect('/artworks/');
-        }else {
-            i;
+app.delete('/artworks/:id', function(req, res){
+    // find artwork with provided id
+    Artwork.findByIdAndDelete(req.params.id, function(err){
+        if (err) {
+            console.log(err);
+            res.redirect('/artworks');
+        } else {
+            // redirect to index route
+            res.redirect('/artworks');
         }
-    }
+    })
 });
 
 // page not found handler (ensure it's the last route!)

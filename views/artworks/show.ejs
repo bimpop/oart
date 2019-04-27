@@ -8,10 +8,10 @@
             <p class="pull-right">#1,200</p>
             <h1><%= artwork.title %></h1>
             <p><%= artwork.desc %></p>
-            <form class="pull-right" action="/artworks/<%= artwork.title %>?_method=DELETE" method="POST">
+            <form class="pull-right" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
                 <button class="btn btn-small btn-danger">Delete</button>
             </form>
-            <a class="btn btn-small btn-warning" href="/artworks/<%= artwork.title %>/edit">Edit</a>
+            <a class="btn btn-small btn-warning" href="/artworks/<%= artwork._id %>/edit">Edit</a>
         </div>
         
     </div>

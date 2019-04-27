@@ -3,7 +3,7 @@
     <div class="container">
         <div class="row" style="margin:25px auto; width: 30%;">
             <h1 class="text-center">Edit <%= artwork.title %></h1>
-            <form class="form text-center" action="/artworks/<%= artwork.title %>?_method=PUT" method="POST">
+            <form class="form text-center" action="/artworks/<%= artwork._id %>?_method=PUT" method="POST">
                 <div class="form-group">
                     <label>Title:
                         <input class="form-control" type="text" name="artwork[title]" value="<%= artwork.title %>">
