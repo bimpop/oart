@@ -6,7 +6,9 @@ var express         = require('express'),
     app             = express(),
     bodyParser      = require('body-parser'),
     methodOverride  = require('method-override'),
-    mongoose        = require('mongoose');
+    mongoose        = require('mongoose'),
+    Artwork         = require('./models/artwork'),
+    Comment         = require('./models/comment');
 
 // connect to database
 mongoose.connect('mongodb://localhost/oart', {useNewUrlParser: true});
@@ -19,15 +21,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
-
-// artwork schema
-var artworkSchema = new mongoose.Schema({
-    title: String,
-    image: String,
-    desc: String
-});
-// artwork model from schema
-var Artwork = mongoose.model('Artwork', artworkSchema);
 
 // ROUTES
 // homepage
@@ -75,7 +68,7 @@ app.post('/artworks', function(req, res){
 // artworks show route
 app.get('/artworks/:id', function(req, res){
     // find the artwork with the provided id
-    Artwork.findById(req.params.id, function(err, foundArtwork){
+    Artwork.findById(req.params.id).populate('comments').exec(function(err, foundArtwork){
         if (err) {
             console.log(err);
             // redirect to index route
@@ -129,6 +122,86 @@ app.delete('/artworks/:id', function(req, res){
             res.redirect('/artworks');
         }
     })
+});
+
+// comments new route
+app.get('/artworks/:id/comments/new', function(req, res){
+    // find artwork first
+    Artwork.findById(req.params.id, function(err, artwork){
+        if (err) {
+            console.log(err);
+            res.redirect('/artworks');
+        } else {
+            // render add new comment form
+            res.render('comments/new', {artwork: artwork});
+        }
+    });
+});
+
+//comments create route
+app.post('/artworks/:id/comments', function(req, res){
+    // find artwork first
+    Artwork.findById(req.params.id, function(err, foundArtwork){
+        if (err) {
+            console.log(err);
+            res.redirect('/artworks');
+        } else {
+            // add the new comment to the foundArtwork
+            Comment.create(req.body.comment, function(err, newComment){
+                if (err) {
+                    console.log(err);
+                    res.redirect('/artworks');
+                } else {
+                    // add comment to artwork association and save
+                    foundArtwork.comments.push(newComment);
+                    foundArtwork.save();
+                    // redirect to artwork show route
+                    res.redirect('/artworks/' + req.params.id);
+                }
+            });
+        }
+    });
+});
+
+// comment edit route
+app.get('/artworks/:id/comments/:comment_id/edit', function(req, res){
+    // find comment
+    Comment.findById(req.params.comment_id, function(err, foundComment){
+        if (err) {
+            console.log(err);
+            res.redirect('/artworks' + req.params.id);
+        } else {
+            // render edit form
+            res.render('comments/edit', {artwork_id: req.params.id, comment: foundComment});
+        }
+    });
+});
+
+// comment update route
+app.put('/artworks/:id/comments/:comment_id', function(req, res){
+    // find the comment and update it
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, foundComment){
+        if (err) {
+            console.log(err);
+            res.redirect('/artworks' + req.params.id);
+        } else {
+            // redirect to artwork show route
+            res.redirect('/artworks/' + req.params.id);
+        }
+    });
+});
+
+// comment destroy route
+app.delete('/artworks/:id/comments/:comment_id', function(req, res){
+    // find and delete the comment
+    Comment.findByIdAndDelete(req.params.comment_id, function(err){
+        if (err) {
+            console.log(err);
+            res.redirect('back');
+        } else {
+            res.redirect('/artworks/' + req.params.id);
+        }
+    });
 });
 
 // page not found handler (ensure it's the last route!)
