@@ -1,3 +1,6 @@
+// require dotenv at the top
+require('dotenv').config();
+
 // require necessary modules
 var express         = require('express'),
     app             = express(),
@@ -134,6 +137,6 @@ app.get('*', function(req, res){
 });
 
 // server listener
-app.listen(8080 || process.env.PORT, process.env.IP, function(){
+app.listen(process.env.PORT, process.env.IP, function(){
     console.log('Serving o-art...');
 });
