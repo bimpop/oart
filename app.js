@@ -27,7 +27,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 app.use(expressSession({
-    secret: process.env.SECRET,
+    secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
