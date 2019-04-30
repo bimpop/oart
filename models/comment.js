@@ -1,8 +1,8 @@
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 // comment schema
-var commentSchema = new mongoose.Schema({
+const commentSchema = new mongoose.Schema({
     text: String,
     author: String
 });
