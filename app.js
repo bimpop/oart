@@ -35,6 +35,7 @@ app.use(expressSession({
 //passport setup
 app.use(passport.initialize());
 app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
@@ -246,6 +247,19 @@ app.post('/signup', function(req, res){
             });
         }
     });
+});
+
+// auth login new route
+app.get('/login', function(req, res){
+    res.render('login');
+});
+
+// auth login create route
+app.post('/login', passport.authenticate('local', {
+    successRedirect: '/artworks',
+    failureRedirect: '/login'
+}), function(req, res){
+    
 });
 
 // page not found handler (ensure it's the last route!)
