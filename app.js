@@ -66,12 +66,12 @@ app.get('/artworks', function(req, res){
 });
 
 // artworks new route
-app.get('/artworks/new', function(req, res) {
+app.get('/artworks/new', isLoggedIn, function(req, res) {
     res.render('artworks/new');
 });
 
 // artworks create route
-app.post('/artworks', function(req, res){
+app.post('/artworks', isLoggedIn, function(req, res){
     // collect form data
     var newArtwork = req.body.artwork;
     // add collected data to DB
@@ -103,7 +103,7 @@ app.get('/artworks/:id', function(req, res){
 });
 
 // artwork edit route
-app.get('/artworks/:id/edit', function(req, res){
+app.get('/artworks/:id/edit', isLoggedIn, function(req, res){
     // find artwork with the provided id
     Artwork.findById(req.params.id, function(err, editedArtwork){
         if (err) {
@@ -118,7 +118,7 @@ app.get('/artworks/:id/edit', function(req, res){
 });
 
 // artwork update route
-app.put('/artworks/:id', function(req, res){
+app.put('/artworks/:id', isLoggedIn, function(req, res){
     // find artwork with provided id
     Artwork.findByIdAndUpdate(req.params.id, req.body.artwork, function(err, updatedArtwork){
         if (err) {
@@ -133,7 +133,7 @@ app.put('/artworks/:id', function(req, res){
 });
 
 // artwork destroy route
-app.delete('/artworks/:id', function(req, res){
+app.delete('/artworks/:id', isLoggedIn, function(req, res){
     // find artwork with provided id
     Artwork.findByIdAndDelete(req.params.id, function(err){
         if (err) {
@@ -149,7 +149,7 @@ app.delete('/artworks/:id', function(req, res){
 // COMMENTS ROUTE
 
 // comments new route
-app.get('/artworks/:id/comments/new', function(req, res){
+app.get('/artworks/:id/comments/new', isLoggedIn, function(req, res){
     // find artwork first
     Artwork.findById(req.params.id, function(err, artwork){
         if (err) {
@@ -163,7 +163,7 @@ app.get('/artworks/:id/comments/new', function(req, res){
 });
 
 //comments create route
-app.post('/artworks/:id/comments', function(req, res){
+app.post('/artworks/:id/comments', isLoggedIn, function(req, res){
     // find artwork first
     Artwork.findById(req.params.id, function(err, foundArtwork){
         if (err) {
@@ -188,7 +188,7 @@ app.post('/artworks/:id/comments', function(req, res){
 });
 
 // comment edit route
-app.get('/artworks/:id/comments/:comment_id/edit', function(req, res){
+app.get('/artworks/:id/comments/:comment_id/edit', isLoggedIn, function(req, res){
     // find comment
     Comment.findById(req.params.comment_id, function(err, foundComment){
         if (err) {
@@ -202,7 +202,7 @@ app.get('/artworks/:id/comments/:comment_id/edit', function(req, res){
 });
 
 // comment update route
-app.put('/artworks/:id/comments/:comment_id', function(req, res){
+app.put('/artworks/:id/comments/:comment_id', isLoggedIn, function(req, res){
     // find the comment and update it
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, foundComment){
         if (err) {
@@ -216,7 +216,7 @@ app.put('/artworks/:id/comments/:comment_id', function(req, res){
 });
 
 // comment destroy route
-app.delete('/artworks/:id/comments/:comment_id', function(req, res){
+app.delete('/artworks/:id/comments/:comment_id', isLoggedIn, function(req, res){
     // find and delete the comment
     Comment.findByIdAndDelete(req.params.comment_id, function(err){
         if (err) {
@@ -258,9 +258,20 @@ app.get('/login', function(req, res){
 app.post('/login', passport.authenticate('local', {
     successRedirect: '/artworks',
     failureRedirect: '/login'
-}), function(req, res){
-    
+}), function(req, res){});
+
+// auth logout route
+app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
 });
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect('/login');
+}
 
 // page not found handler (ensure it's the last route!)
 app.get('*', function(req, res){
