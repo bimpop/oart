@@ -2,13 +2,18 @@
 require('dotenv').config();
 
 // require necessary modules
-var express         = require('express'),
-    app             = express(),
-    bodyParser      = require('body-parser'),
-    methodOverride  = require('method-override'),
-    mongoose        = require('mongoose'),
-    Artwork         = require('./models/artwork'),
-    Comment         = require('./models/comment');
+const express                 = require('express'),
+    app                     = express(),
+    bodyParser              = require('body-parser'),
+    methodOverride          = require('method-override'),
+    mongoose                = require('mongoose'),
+    expressSession          = require('express-session'),
+    User                    = require('./models/user'),
+    Artwork                 = require('./models/artwork'),
+    Comment                 = require('./models/comment'),
+    passport                = require('passport'),
+    LocalStrategy           = require('passport-local'),
+    passportLocalMongoose   = require('passport-local-mongoose');
 
 // connect to database
 mongoose.connect('mongodb://localhost/oart', {useNewUrlParser: true});
@@ -21,6 +26,17 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
+app.use(expressSession({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false
+}));
+
+//passport setup
+app.use(passport.initialize());
+app.use(passport.session());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // ROUTES
 // homepage
