@@ -38,11 +38,16 @@ app.use(passport.session());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// ==================
 // ROUTES
+// ==================
+
 // homepage
 app.get('/', function(req, res){
     res.render('home');
 });
+
+// ARTWORKS ROUTES
 
 // artworks index route
 app.get('/artworks', function(req, res){
@@ -140,6 +145,8 @@ app.delete('/artworks/:id', function(req, res){
     })
 });
 
+// COMMENTS ROUTE
+
 // comments new route
 app.get('/artworks/:id/comments/new', function(req, res){
     // find artwork first
@@ -216,6 +223,27 @@ app.delete('/artworks/:id/comments/:comment_id', function(req, res){
             res.redirect('back');
         } else {
             res.redirect('/artworks/' + req.params.id);
+        }
+    });
+});
+
+// AUTH ROUTES
+
+// auth signup new route
+app.get('/signup', function(req, res){
+    res.render('signup');
+});
+
+//auth signup create route
+app.post('/signup', function(req, res){
+    User.register(new User({username: req.body.username}), req.body.password, function(err, user){
+        if (err) {
+            console.log(err);
+            res.render('signup');
+        } else {
+            passport.authenticate('local')(req, res, function(){
+                res.redirect('/artworks');
+            });
         }
     });
 });
