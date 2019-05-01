@@ -36,6 +36,10 @@ router.post('/artworks/:id/comments', isLoggedIn, function(req, res){
                     console.log(err);
                     res.redirect('/artworks');
                 } else {
+                    // add username and id to comment and save
+                    newComment.author.id = req.user._id;
+                    newComment.author.username = req.user.username;
+                    newComment.save();
                     // add comment to artwork association and save
                     foundArtwork.comments.push(newComment);
                     foundArtwork.save();
