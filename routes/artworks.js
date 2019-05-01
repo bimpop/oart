@@ -61,22 +61,15 @@ router.get('/:id', function(req, res){
 });
 
 // artwork edit route
-router.get('/:id/edit', isLoggedIn, function(req, res){
-    // find artwork with the provided id
+router.get('/:id/edit', checkArtworkOwnership, function(req, res){
     Artwork.findById(req.params.id, function(err, editedArtwork){
-        if (err) {
-            console.log(err);
-            // redirect to index route
-            res.redirect('/artworks');
-        } else {
-            // render foundArtwork's edit form
-            res.render('artworks/edit', {artwork: editedArtwork});
-        }
+        // render foundArtwork's edit form
+        res.render('artworks/edit', {artwork: editedArtwork});
     });
 });
 
 // artwork update route
-router.put('/:id', isLoggedIn, function(req, res){
+router.put('/:id', checkArtworkOwnership, function(req, res){
     // find artwork with provided id
     Artwork.findByIdAndUpdate(req.params.id, req.body.artwork, function(err, updatedArtwork){
         if (err) {
@@ -91,7 +84,7 @@ router.put('/:id', isLoggedIn, function(req, res){
 });
 
 // artwork destroy route
-router.delete('/:id', isLoggedIn, function(req, res){
+router.delete('/:id', checkArtworkOwnership, function(req, res){
     // find artwork with provided id
     Artwork.findByIdAndDelete(req.params.id, function(err){
         if (err) {
@@ -110,6 +103,25 @@ function isLoggedIn(req, res, next) {
         return next();
     }
     res.redirect('/login');
+}
+
+function checkArtworkOwnership(req, res, next){
+    if(req.isAuthenticated()){
+        // find artwork with the provided id
+        Artwork.findById(req.params.id, function(err, editedArtwork){
+            if (err) {
+                res.redirect('back');
+            } else {
+                if(editedArtwork.author.id.equals(req.user._id)){
+                    next();
+                } else {
+                    res.redirect('back');
+                }
+            }
+        });
+    } else {
+        res.redirect('back');
+    }
 }
 
 module.exports = router;

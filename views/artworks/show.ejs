@@ -10,10 +10,15 @@
                     <h1><%= artwork.title %></h1>
                     <p><%= artwork.desc %></p>
                     <p><em>Submitted By <%= artwork.author.username %></em></p>
-                    <form class="pull-right" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-small btn-danger">Delete</button>
-                    </form>
-                    <a class="btn btn-small btn-warning" href="/artworks/<%= artwork._id %>/edit">Edit</a>
+
+                    <!-- hide buttons from unauth user -->
+                    <% if(currentUser && currentUser._id.equals(artwork.author.id)){ %>
+                        <form class="pull-right" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-small btn-danger">Delete</button>
+                        </form>
+                        <a class="btn btn-small btn-warning" href="/artworks/<%= artwork._id %>/edit">Edit</a>
+                    <% } %>
+                    
                 </div>
             </div>
         </div>
@@ -30,10 +35,15 @@
                     <strong><%= comment.author.username %></strong>
                     <em class="pull-right">3 days ago</em>
                     <p><%= comment.text %></p>
-                    <a class="btn btn-xs btn-warning" href="/artworks/<%= artwork._id %>/comments/<%= comment._id %>/edit">Edit</a>
-                    <form class="pull-right" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-xs btn-danger">Delete</button>
-                    </form>
+                    
+                    <!-- hide buttons from unauth user -->
+                    <% if(currentUser && currentUser._id.equals(comment.author.id)){ %>
+                        <form class="pull-right" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-xs btn-danger">Delete</button>
+                        </form>
+                        <a class="btn btn-xs btn-warning" href="/artworks/<%= artwork._id %>/comments/<%= comment._id %>/edit">Edit</a>
+                    <% } %>
+                    
                 </div>
             </div>
             <hr>
