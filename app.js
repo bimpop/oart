@@ -12,6 +12,9 @@ const express               = require('express'),
     passport                = require('passport'),
     LocalStrategy           = require('passport-local');
 
+// import middlewares
+const middleware = require('./middleware');
+
 // import routes
 const   artworkRoutes   = require('./routes/artworks'),
         commentRoutes   = require('./routes/comments'),
@@ -41,8 +44,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// apply currentUser middleware
-app.use(currentUser);
+// apply middleware
+app.use(middleware.currentUser);
 
 // routes setup
 // can't include route-link pre-appends for routes (commentRoutes in this case) with req.params
@@ -50,12 +53,6 @@ app.use(currentUser);
 app.use('/artworks', artworkRoutes);
 app.use(commentRoutes);
 app.use(indexRoutes);
-
-// middlewares
-function currentUser(req, res, next){
-    res.locals.currentUser = req.user;
-    next();
-}
 
 // server listener
 app.listen(process.env.PORT, process.env.IP, function(){

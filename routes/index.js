@@ -51,12 +51,4 @@ router.get('*', function(req, res){
     res.send('Sorry, the page you are requesting for could not be found.');
 });
 
-// middlewares
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect('/login');
-}
-
 module.exports = router;
