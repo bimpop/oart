@@ -28,15 +28,17 @@ router.get('/new', isLoggedIn, function(req, res) {
 
 // artworks create route
 router.post('/', isLoggedIn, function(req, res){
-    // collect form data
-    var newArtwork = req.body.artwork;
-    // add collected data to DB
-    Artwork.create(newArtwork, function(err, newArtwork){
+    // collect form data and add to DB
+    Artwork.create(req.body.artwork, function(err, newArtwork){
         if(err){
             console.log(err);
             // redirect to index route
             res.redirect('/artworks');
         }else {
+            // add username and id to comment and save
+            newArtwork.author.id = req.user._id;
+            newArtwork.author.username = req.user.username;
+            newArtwork.save();
             // redirect to index route
             res.redirect('/artworks'); 
         }

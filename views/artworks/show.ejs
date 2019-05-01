@@ -6,9 +6,10 @@
             <div class="thumbnail">
                 <img class="img-responsive" src="<%= artwork.image %>" alt="<%= artwork.title %>">
                 <div class="caption-full">
-                    <strong><em class="pull-right"># 1, 200</em></strong>
+                    <strong class="pull-right"># 1, 200</strong>
                     <h1><%= artwork.title %></h1>
                     <p><%= artwork.desc %></p>
+                    <p><em>Submitted By <%= artwork.author.username %></em></p>
                     <form class="pull-right" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
                         <button class="btn btn-small btn-danger">Delete</button>
                     </form>
