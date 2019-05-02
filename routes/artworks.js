@@ -12,12 +12,12 @@ router.get('/', function(req, res){
     // get all artworks from DB first
     Artwork.find({}, function(err, artworks){
         if(err){
-            console.log(err);
+            req.flash('error', err.message);
             // redirect to index route
             res.redirect('/artworks');
         }else {
             // render all found artworks
-            res.render('artworks/index', {artworks: artworks});
+            res.render('artworks/index', {artworks: artworks.reverse()});
         }
     });
 });
@@ -32,7 +32,7 @@ router.post('/', middleware.isLoggedIn, function(req, res){
     // collect form data and add to DB
     Artwork.create(req.body.artwork, function(err, newArtwork){
         if(err){
-            console.log(err);
+            req.flash('error', err.message);
             // redirect to index route
             res.redirect('/artworks');
         }else {
@@ -49,7 +49,11 @@ router.post('/', middleware.isLoggedIn, function(req, res){
 // artworks show route
 router.get('/:id', function(req, res){
     // find the artwork with the provided id
-    Artwork.findById(req.params.id).populate('comments').exec(function(err, foundArtwork){
+    Artwork.findById(req.params.id, function(err){
+        if(err){
+            console.log(err);
+        }
+    }).populate('comments').exec(function(err, foundArtwork){
         if (err) {
             console.log(err);
             // redirect to index route
@@ -74,7 +78,7 @@ router.put('/:id', middleware.checkArtworkOwnership, function(req, res){
     // find artwork with provided id
     Artwork.findByIdAndUpdate(req.params.id, req.body.artwork, function(err, updatedArtwork){
         if (err) {
-            console.log(err);
+            req.flash('error', err.message);
             // redirect to index route
             res.redirect('/artworks');
         } else {
@@ -89,10 +93,11 @@ router.delete('/:id', middleware.checkArtworkOwnership, function(req, res){
     // find artwork with provided id
     Artwork.findByIdAndDelete(req.params.id, function(err){
         if (err) {
-            console.log(err);
+            req.flash('error', err.message);
             res.redirect('/artworks');
         } else {
             // redirect to index route
+            req.flash('success', 'Artwork deleted.');
             res.redirect('/artworks');
         }
     })

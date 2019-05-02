@@ -19,10 +19,11 @@ router.get('/signup', function(req, res){
 router.post('/signup', function(req, res){
     User.register(new User({username: req.body.username}), req.body.password, function(err, user){
         if (err) {
-            console.log(err);
-            res.render('signup');
+            req.flash('error', err.message);
+            res.redirect('/signup');
         } else {
             passport.authenticate('local')(req, res, function(){
+                req.flash('success', 'Welcome to OART ' + user.username + '!');
                 res.redirect('/artworks');
             });
         }
@@ -43,7 +44,8 @@ router.post('/login', passport.authenticate('local', {
 // auth logout route
 router.get('/logout', function(req, res){
     req.logout();
-    res.redirect('/');
+    req.flash('success', 'Successfully logged out.');
+    res.redirect('/artworks');
 });
 
 // page not found handler (ensure it's the last route!)

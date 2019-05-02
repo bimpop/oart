@@ -8,6 +8,7 @@ const express               = require('express'),
     methodOverride          = require('method-override'),
     mongoose                = require('mongoose'),
     expressSession          = require('express-session'),
+    flash                   = require('connect-flash'),
     User                    = require('./models/user'),
     passport                = require('passport'),
     LocalStrategy           = require('passport-local');
@@ -36,6 +37,7 @@ app.use(expressSession({
     resave: false,
     saveUninitialized: false
 }));
+app.use(flash());
 
 // passport setup
 app.use(passport.initialize());

@@ -35,4 +35,23 @@
     </nav>
 
     <section class="container">
+        <div class="container">
+            <% if(error && error.length > 0){ %>
+                <div class="alert alert-danger fade in">
+                    <button href="#" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success && success.length > 0){ %>
+                <div class="alert alert-success fade in">
+                    <button href="#" class="close" data-dismiss="alert" aria-label="close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <%= success %>
+                </div>
+            <% } %>
+        </div>
+        
         

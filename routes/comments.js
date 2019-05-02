@@ -88,6 +88,7 @@ router.delete('/artworks/:id/comments/:comment_id', middleware.checkCommentOwner
             console.log(err);
             res.redirect('back');
         } else {
+            req.flash('success', 'Comment deleted');
             res.redirect('/artworks/' + req.params.id);
         }
     });
