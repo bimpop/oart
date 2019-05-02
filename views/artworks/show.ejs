@@ -12,7 +12,7 @@
                     <p><em>Submitted By <%= artwork.author.username %></em></p>
 
                     <!-- hide buttons from unauth user -->
-                    <% if(currentUser && currentUser._id.equals(artwork.author.id)){ %>
+                    <% if(currentUser && (currentUser._id.equals(artwork.author.id) || currentUser.isAdmin)){ %>
                         <a class="btn btn-small btn-warning" href="/artworks/<%= artwork._id %>/edit">
                             Edit
                         </a>
@@ -39,7 +39,7 @@
                     <p><%= comment.text %></p>
                     
                     <!-- hide buttons from unauth user -->
-                    <% if(currentUser && currentUser._id.equals(comment.author.id)){ %>
+                    <% if(currentUser && (currentUser._id.equals(comment.author.id) || currentUser.isAdmin)){ %>
                         <form class="dlt-btn pull-right" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>

@@ -21,6 +21,7 @@ middlewareObj.isLoggedIn = function isLoggedIn(req, res, next) {
 }
 
 middlewareObj.checkArtworkOwnership = function checkArtworkOwnership(req, res, next){
+    // check if user is authenticated
     if(req.isAuthenticated()){
         // find artwork with the provided id
         Artwork.findById(req.params.id, function(err, editedArtwork){
@@ -28,7 +29,8 @@ middlewareObj.checkArtworkOwnership = function checkArtworkOwnership(req, res, n
                 req.flash('error', err.message);
                 res.redirect('back');
             } else {
-                if(editedArtwork.author.id.equals(req.user._id)){
+                // check if user is authorized
+                if ((editedArtwork.author.id.equals(req.user._id)) || req.user.isAdmin ) {
                     next();
                 } else {
                     req.flash('error', 'You don\'t have permission to do that.');
@@ -50,7 +52,7 @@ middlewareObj.checkCommentOwnership = function checkCommentOwnership(req, res, n
                 req.flash('error', err.message);
                 res.redirect('back');
             } else {
-                if(editedComment.author.id.equals(req.user._id)){
+                if(editedComment.author.id.equals(req.user._id) || req.user.isAdmin ){
                     next();
                 } else {
                     req.flash('error', 'You don\'t have permission to do that.');

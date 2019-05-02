@@ -17,7 +17,12 @@ router.get('/signup', function(req, res){
 
 //auth signup create route
 router.post('/signup', function(req, res){
-    User.register(new User({username: req.body.username}), req.body.password, function(err, user){
+    const newUser = new User({username: req.body.username})
+    // admin logic
+    if(req.body.adminCode === process.env.ADMIN_CODE){
+        newUser.isAdmin = true;
+    }
+    User.register(newUser, req.body.password, function(err, user){
         if (err) {
             req.flash('error', err.message);
             res.redirect('/signup');
@@ -44,7 +49,7 @@ router.post('/login', passport.authenticate('local', {
 // auth logout route
 router.get('/logout', function(req, res){
     req.logout();
-    req.flash('success', 'Successfully logged out.');
+    req.flash('success', 'Thanks for your time, see you later!');
     res.redirect('/artworks');
 });
 
