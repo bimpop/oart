@@ -13,10 +13,12 @@
 
                     <!-- hide buttons from unauth user -->
                     <% if(currentUser && currentUser._id.equals(artwork.author.id)){ %>
-                        <form class="pull-right" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
+                        <a class="btn btn-small btn-warning" href="/artworks/<%= artwork._id %>/edit">
+                            Edit
+                        </a>
+                        <form class="dlt-btn" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-small btn-danger">Delete</button>
                         </form>
-                        <a class="btn btn-small btn-warning" href="/artworks/<%= artwork._id %>/edit">Edit</a>
                     <% } %>
                     
                 </div>
@@ -29,7 +31,7 @@
             <a class="btn btn-success" href="/artworks/<%= artwork._id %>/comments/new">Add New Comment</a>
         </div>
         <hr>
-        <% artwork.comments.forEach(function(comment){ %>
+        <% artwork.comments.reverse().forEach(function(comment){ %>
             <div class="row">
                 <div class="col-md-12">
                     <strong><%= comment.author.username %></strong>
@@ -38,10 +40,12 @@
                     
                     <!-- hide buttons from unauth user -->
                     <% if(currentUser && currentUser._id.equals(comment.author.id)){ %>
-                        <form class="pull-right" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                        <form class="dlt-btn pull-right" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-xs btn-danger">Delete</button>
                         </form>
-                        <a class="btn btn-xs btn-warning" href="/artworks/<%= artwork._id %>/comments/<%= comment._id %>/edit">Edit</a>
+                        <a class="pull-right btn btn-xs btn-warning" href="/artworks/<%= artwork._id %>/comments/<%= comment._id %>/edit">
+                            Edit
+                        </a>
                     <% } %>
                     
                 </div>

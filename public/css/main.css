@@ -5,3 +5,8 @@
     margin: 2px;
     padding: 10px;
 }
+
+.dlt-btn {
+    margin-left: 5rem;
+    display: inline;
+}
