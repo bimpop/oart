@@ -9,7 +9,7 @@
                     <strong class="pull-right"># 1, 200</strong>
                     <h1><%= artwork.title %></h1>
                     <p><%= artwork.desc %></p>
-                    <p><em>Submitted By <%= artwork.author.username %></em></p>
+                    <p><em><i class="fas fa-user-alt"></i> Submitted By <%= artwork.author.username %></em></p>
 
                     <!-- hide buttons from unauth user -->
                     <% if(currentUser && (currentUser._id.equals(artwork.author.id) || currentUser.isAdmin)){ %>
@@ -34,7 +34,7 @@
         <% artwork.comments.reverse().forEach(function(comment){ %>
             <div class="row">
                 <div class="col-md-12">
-                    <strong><%= comment.author.username %></strong>
+                    <strong><i class="fas fa-user-alt"></i> <%= comment.author.username %></strong>
                     <em class="pull-right">3 days ago</em>
                     <p><%= comment.text %></p>
                     

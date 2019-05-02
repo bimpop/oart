@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>O-Art</title>
+    <link rel="stylesheet" href="/css/all.css">
     <link rel="stylesheet" href="/asset/bootstrap-3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
@@ -16,18 +17,18 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="/" class="navbar-brand">
-                    <span class="glyphicon glyphicon-pencil">&nbsp;<span>O-Art
+                    <i class="fas fa-pencil-alt"></i> O-Art
                 </a>    
             </div>
 
             <div class="collapse navbar-collapse" id="mainNavBar">
                 <ul class="nav navbar-nav navbar-right">
                     <% if(!currentUser){ %>
-                        <li><a href="/signup">Sign up</a></li>
-                        <li><a href="/login">Log in</a></li>
+                        <li><a href="/signup"><i class="fas fa-user-plus"></i> Sign up</a></li>
+                        <li><a href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a></li>
                     <% } else { %>
-                        <li><a href="#">Signed in as <%= currentUser.username %></a></li>
-                        <li><a href="/logout">Log out</a></li>
+                        <li><a href="#">Signed in as <i class="fas fa-user-alt"></i> <%= currentUser.username %></a></li>
+                        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
                     <% } %>
                 </ul>
             </div>
