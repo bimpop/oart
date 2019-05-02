@@ -2,22 +2,22 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <div class="thumbnail">
-                <img class="img-responsive" src="<%= artwork.image %>" alt="<%= artwork.title %>">
-                <div class="caption-full">
-                    <strong class="pull-right"># 1, 200</strong>
-                    <h1><%= artwork.title %></h1>
+        <div class="col-md-8 offset-md-2">
+            <div class="card mb-3">
+                <img class="card-img-top" src="<%= artwork.image %>" alt="<%= artwork.title %>">
+                <div class="card-body">
+                    <p class="float-right"># 1, 200</p>
+                    <h1 class="h4"><%= artwork.title %></h1>
                     <p><%= artwork.desc %></p>
                     <p><em><i class="fas fa-user-alt"></i> Submitted By <%= artwork.author.username %></em></p>
 
                     <!-- hide buttons from unauth user -->
                     <% if(currentUser && (currentUser._id.equals(artwork.author.id) || currentUser.isAdmin)){ %>
-                        <a class="btn btn-small btn-warning" href="/artworks/<%= artwork._id %>/edit">
+                        <a class="btn btn-sm btn-warning" href="/artworks/<%= artwork._id %>/edit">
                             Edit
                         </a>
-                        <form class="dlt-btn" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-small btn-danger">Delete</button>
+                        <form class="d-inline ml-2" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-danger">Delete</button>
                         </form>
                     <% } %>
                     
@@ -26,33 +26,35 @@
         </div>
     </div>
 
-    <div class="well">
-        <div class="text-right">
-            <a class="btn btn-success" href="/artworks/<%= artwork._id %>/comments/new">Add New Comment</a>
-        </div>
-        <hr>
-        <% artwork.comments.reverse().forEach(function(comment){ %>
-            <div class="row">
-                <div class="col-md-12">
-                    <strong><i class="fas fa-user-alt"></i> <%= comment.author.username %></strong>
-                    <em class="pull-right">3 days ago</em>
-                    <p><%= comment.text %></p>
-                    
-                    <!-- hide buttons from unauth user -->
-                    <% if(currentUser && (currentUser._id.equals(comment.author.id) || currentUser.isAdmin)){ %>
-                        <form class="dlt-btn pull-right" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-xs btn-danger">Delete</button>
-                        </form>
-                        <a class="pull-right btn btn-xs btn-warning" href="/artworks/<%= artwork._id %>/comments/<%= comment._id %>/edit">
-                            Edit
-                        </a>
-                    <% } %>
-                    
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="d-inline h6">Comments</h4>
+                    <a class="btn btn-sm btn-success float-right" href="/artworks/<%= artwork._id %>/comments/new">Add New Comment</a>
                 </div>
+                <% artwork.comments.reverse().forEach(function(comment){ %>
+                    <div class="card-body">
+                        <em class="float-right">3 days ago</em>
+                        <h6 class="card-subtitle"><i class="fas fa-user-alt"></i> <%= comment.author.username %></h6>
+                        <p class="card-text"><%= comment.text %></p>
+                        
+                        <!-- hide buttons from unauth user -->
+                        <% if(currentUser && (currentUser._id.equals(comment.author.id) || currentUser.isAdmin)){ %>
+                            <form class="float-right ml-2" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                            <a class="float-right btn btn-sm btn-warning" href="/artworks/<%= artwork._id %>/comments/<%= comment._id %>/edit">
+                                Edit
+                            </a>
+                        <% } %>
+                        
+                    </div>
+                <% }); %>
             </div>
-            <hr>
-        <% }); %>
+        </div>
     </div>
+            
 </div>
 
 <% include ../partials/footer %>

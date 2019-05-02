@@ -4,26 +4,30 @@
     <header class="jumbotron">
         <div class="container text-center">
             <h1><i class="fas fa-pencil-alt"></i> Welcome to O-Art Gallery</h1>
-            <p>View our insightful collection of Artworks</p>
+            <p class="lead">View our insightful collection of Artworks</p>
             <a class="btn btn-info" href="/artworks/new">Add New Artwork</a>
         </div>
     </header>
 
-    <div class="row text-center" style="display:flex; flex-wrap:wrap;">
+    <div class="row">
 
         <% artworks.forEach(function(artwork){ %>
-        <div class="col-md-2 col-sm-4 col-xs-6">
-            <div class="thumbnail">
-                <img src="<%= artwork.image %>" alt="<%= artwork.title %>">
-                <h2 class="caption text-center">
-                    <%= artwork.title %>
-                </h2>
-                <p><a href="/artworks/<%= artwork._id %>" class="btn btn-info">More Info...</a></p>
+        <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
+            <div class="card border-info mb-3">
+                <img class="card-img-top" src="<%= artwork.image %>" alt="<%= artwork.title %>">
+                <div class="card-body">
+                    <h2 class="card-title h6 mb-0">
+                        <%= artwork.title %>
+                    </h2>
+                    <p class="card-text mb-1"><small><%= artwork.desc.substring(0, 30) %>...</small></p>
+                    <a class="float-right btn btn-info btn-sm" href="/artworks/<%= artwork._id %>">More Info</a>
+                </div>
             </div>
         </div>
         <% }); %>
-        
+
     </div>
+
 </div>
 
 <% include ../partials/footer %>

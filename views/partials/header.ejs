@@ -2,33 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width: device-width, initial-scale=1, shrink-to-fit=no">
     <title>O-Art</title>
     <link rel="stylesheet" href="/css/all.css">
-    <link rel="stylesheet" href="/asset/bootstrap-3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-    <nav  class="navbar navbar-default">
+    <nav  class="navbar navbar-expand-md sticky-top navbar-dark bg-info mb-2">
         <div class="container">
-            <div class="navbar-header">
-                <button class="navbar-toggle" data-toggle="collapse" data-target="#mainNavBar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="/" class="navbar-brand">
-                    <i class="fas fa-pencil-alt"></i> O-Art
-                </a>    
-            </div>
+            <a href="/" class="navbar-brand">
+                <i class="fas fa-pencil-alt"></i> O-Art
+            </a>
+            <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavBar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
             <div class="collapse navbar-collapse" id="mainNavBar">
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="navbar-nav ml-auto">
                     <% if(!currentUser){ %>
-                        <li><a href="/signup"><i class="fas fa-user-plus"></i> Sign up</a></li>
-                        <li><a href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a>
+                        </li>
                     <% } else { %>
-                        <li><a href="#">Signed in as <i class="fas fa-user-alt"></i> <%= currentUser.username %></a></li>
-                        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Signed in as <i class="fas fa-user-alt"></i> <%= currentUser.username %></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
+                        </li>
                     <% } %>
                 </ul>
             </div>
@@ -38,16 +43,16 @@
     <section class="container">
         <div class="container">
             <% if(error && error.length > 0){ %>
-                <div class="alert alert-danger fade in">
-                    <button href="#" class="close" data-dismiss="alert" aria-label="close">
+                <div class="alert alert-danger alert-dismissible fade in show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <%= error %>
                 </div>
             <% } %>
             <% if(success && success.length > 0){ %>
-                <div class="alert alert-success fade in">
-                    <button href="#" class="close" data-dismiss="alert" aria-label="close">
+                <div class="alert alert-success alert-dismissible fade in show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <%= success %>
