@@ -13,10 +13,10 @@
 
                     <!-- hide buttons from unauth user -->
                     <% if(currentUser && (currentUser._id.equals(artwork.author.id) || currentUser.isAdmin)){ %>
-                        <a class="btn btn-sm btn-warning" href="/artworks/<%= artwork._id %>/edit">
+                        <a class="btn btn-sm btn-warning mr-2" href="/artworks/<%= artwork._id %>/edit">
                             Edit
                         </a>
-                        <form class="d-inline ml-2" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
+                        <form class="d-inline" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-sm btn-danger">Delete</button>
                         </form>
                     <% } %>
@@ -31,22 +31,34 @@
             <div class="card">
                 <div class="card-header">
                     <h4 class="d-inline h6">Comments</h4>
-                    <a class="btn btn-sm btn-success float-right" href="/artworks/<%= artwork._id %>/comments/new">Add New Comment</a>
+                    <% if(currentUser){ %>
+                        <a class="btn btn-sm btn-success float-right" data-toggle="collapse" role="button" href="#commentNew" aria-expanded="false" aria-controls="commentNew">
+                        Add New Comment
+                    </a>
+                    <% } else { %>
+                        <span class="float-right">Login to comment</span>
+                    <% }%>
                 </div>
+
+                <!-- collapse comment form -->
+                <% include ../comments/new %>
+
                 <% artwork.comments.reverse().forEach(function(comment){ %>
                     <div class="card-body">
                         <em class="float-right">3 days ago</em>
                         <h6 class="card-subtitle"><i class="fas fa-user-alt"></i> <%= comment.author.username %></h6>
-                        <p class="card-text"><%= comment.text %></p>
+                        <p class="card-text mb-0"><%= comment.text %></p>
                         
                         <!-- hide buttons from unauth user -->
                         <% if(currentUser && (currentUser._id.equals(comment.author.id) || currentUser.isAdmin)){ %>
-                            <form class="float-right ml-2" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                            <form class="float-right" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
                                 <button class="btn btn-sm btn-danger">Delete</button>
                             </form>
-                            <a class="float-right btn btn-sm btn-warning" href="/artworks/<%= artwork._id %>/comments/<%= comment._id %>/edit">
+                            <button type="button" class="float-right btn btn-sm btn-warning mr-2" data-toggle="modal" data-target="#commentEdit" data-username="<%= comment.author.username %>" data-text="<%= comment.text %>" data-art="<%= artwork._id %>" data-com="<%= comment._id %>">
                                 Edit
-                            </a>
+                            </button>
+                            <!-- Comment Edit Modal  -->
+                            <% include ../comments/edit %>
                         <% } %>
                         
                     </div>
@@ -56,5 +68,7 @@
     </div>
             
 </div>
+
+
 
 <% include ../partials/footer %>

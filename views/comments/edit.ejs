@@ -1,10 +1,18 @@
-<% include ../partials/header %>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-sm-push-3" style="margin:25px auto;">
-                <h2 class="text-center">Edit Comment by <%= comment.author.username %></h2>
-                <form class="form" action="/artworks/<%= artwork_id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+<!-- comment edit modal -->
+<div class="modal fade" id="commentEdit" tabindex="-1" role="dialog" aria-labelledby="commentEditLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title w-100" id="commentEditLabel">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                    <h5 id="comment_author">Edit comment by <%= comment.author.username %></h5>
+                </div>
+            </div>
+            <div class="modal-body">
+                <form class="form" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=PUT" method="POST" role="form">
                     <div class="form-group">
                         <label for="text">Text:</label>
                         <textarea id="text" class="form-control" name="comment[text]"><%= comment.text %></textarea>
@@ -13,10 +21,10 @@
                         <input class="btn btn-primary btn-block" type="submit" value="Update">
                     </div>
                 </form>
-                <a href="/artworks">Back to Gallery</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
-        
     </div>
-
-<% include ../partials/footer %>
+</div>
