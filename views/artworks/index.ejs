@@ -5,7 +5,9 @@
         <div class="container text-center">
             <h1><i class="fas fa-pencil-alt"></i> Welcome to O-Art Gallery</h1>
             <p class="lead">View our insightful collection of Artworks</p>
-            <a class="btn btn-info" href="/artworks/new">Add New Artwork</a>
+            <% if(currentUser){ %>
+                <a class="btn btn-info" href="/artworks/new">Add New Artwork</a>
+            <% } %>
         </div>
     </header>
 
