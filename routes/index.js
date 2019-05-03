@@ -10,40 +10,42 @@ router.get('/', function(req, res){
     res.render('home');
 });
 
-// auth signup new route
-router.get('/signup', function(req, res){
-    res.render('signup');
-});
+// // auth signup new route
+// router.get('/signup', function(req, res){
+//     res.render('signup');
+// });
 
 //auth signup create route
 router.post('/signup', function(req, res){
     const newUser = new User({username: req.body.username})
     // admin logic
-    if(req.body.adminCode === process.env.ADMIN_CODE){
-        newUser.isAdmin = true;
-    }
-    User.register(newUser, req.body.password, function(err, user){
-        if (err) {
-            req.flash('error', err.message);
-            res.redirect('/signup');
-        } else {
-            passport.authenticate('local')(req, res, function(){
-                req.flash('success', 'Welcome to OART ' + user.username + '!');
-                res.redirect('/artworks');
-            });
-        }
-    });
+    if(req.body.password === process.env.ADMIN_CODE){
+        User.register(newUser, req.body.password, function(err, user){
+            if (err) {
+                req.flash('error', err.message);
+                res.redirect('back');
+            } else {
+                passport.authenticate('local')(req, res, function(){
+                    req.flash('success', 'Welcome to OART ' + user.username + '!');
+                    res.redirect('/artworks');
+                });
+            }
+        });
+    } else {
+        req.flash('error', 'Only Admin is allowed');
+        res.redirect('back');
+    }  
 });
 
-// auth login new route
-router.get('/login', function(req, res){
-    res.render('login');
-});
+// // auth login new route
+// router.get('/login', function(req, res){
+//     res.render('login');
+// });
 
 // auth login create route
 router.post('/login', passport.authenticate('local', {
-    successRedirect: '/artworks',
-    failureRedirect: '/login'
+    successRedirect: 'back',
+    failureRedirect: 'back'
 }), function(req, res){});
 
 // auth logout route

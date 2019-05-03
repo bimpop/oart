@@ -1,29 +1,33 @@
 
 <!-- comment edit modal -->
-<div class="modal fade" id="commentEdit" tabindex="-1" role="dialog" aria-labelledby="commentEditLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="commentEdit" tabindex="-1" aria-labelledby="commentEditLabel" aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title w-100" id="commentEditLabel">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span>&times;</span>
-                    </button>
-                    <h5 id="comment_author">Edit comment by <%= comment.author.username %></h5>
-                </div>
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="commentEditLabel">Edit comment by <%= comment.author %></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <form class="form" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=PUT" method="POST" role="form">
                     <div class="form-group">
-                        <label for="text">Text:</label>
-                        <textarea id="text" class="form-control" name="comment[text]"><%= comment.text %></textarea>
+                        <label for="author">Name</label>
+                        <input id="author" class="form-control" name="comment[author]" placeholder="Your name" value="<%= comment.text %>">
                     </div>
                     <div class="form-group">
-                        <input class="btn btn-primary btn-block" type="submit" value="Update">
+                        <label for="text">Text:</label>
+                        <textarea id="text" class="form-control" name="comment[text]" placeholder="Enter your comment here">
+                            <%= comment.text %>
+                        </textarea>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-info btn-block" type="submit" value="Update">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-outline-info" data-dismiss="modal" aria-label="Close">Close</button>
             </div>
         </div>
     </div>

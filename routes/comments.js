@@ -10,21 +10,21 @@ const   express     = require('express'),
 // haven't figured out how to reference the req.params
 
 // comments new route
-router.get('/artworks/:id/comments/new', middleware.isLoggedIn, function(req, res){
-    // find artwork first
-    Artwork.findById(req.params.id, function(err, foundArtwork){
-        if (err) {
-            console.log(err);
-            res.redirect('/artworks');
-        } else {
-            // render add new comment form
-            res.render('comments/new', {artwork: foundArtwork});
-        }
-    });
-});
+// router.get('/artworks/:id/comments/new', middleware.isLoggedIn, function(req, res){
+//     // find artwork first
+//     Artwork.findById(req.params.id, function(err, foundArtwork){
+//         if (err) {
+//             console.log(err);
+//             res.redirect('/artworks');
+//         } else {
+//             // render add new comment form
+//             res.render('comments/new', {artwork: foundArtwork});
+//         }
+//     });
+// });
 
 //comments create route
-router.post('/artworks/:id/comments', middleware.isLoggedIn, function(req, res){
+router.post('/artworks/:id/comments', function(req, res){
     // find artwork first
     Artwork.findById(req.params.id, function(err, foundArtwork){
         if (err) {
@@ -37,10 +37,6 @@ router.post('/artworks/:id/comments', middleware.isLoggedIn, function(req, res){
                     console.log(err);
                     res.redirect('/artworks');
                 } else {
-                    // add username and id to comment and save
-                    newComment.author.id = req.user._id;
-                    newComment.author.username = req.user.username;
-                    newComment.save();
                     // add comment to artwork association and save
                     foundArtwork.comments.push(newComment);
                     foundArtwork.save();
@@ -53,21 +49,21 @@ router.post('/artworks/:id/comments', middleware.isLoggedIn, function(req, res){
 });
 
 // comment edit route
-router.get('/artworks/:id/comments/:comment_id/edit', middleware.checkCommentOwnership, function(req, res){
-    // find comment
-    Comment.findById(req.params.comment_id, function(err, foundComment){
-        if (err) {
-            console.log(err);
-            res.redirect('/artworks' + req.params.id);
-        } else {
-            // render edit form
-            res.render('comments/edit', {artwork_id: req.params.id, comment: foundComment});
-        }
-    });
-});
+// router.get('/artworks/:id/comments/:comment_id/edit', middleware.isLoggedIn, function(req, res){
+//     // find comment
+//     Comment.findById(req.params.comment_id, function(err, foundComment){
+//         if (err) {
+//             console.log(err);
+//             res.redirect('/artworks' + req.params.id);
+//         } else {
+//             // render edit form
+//             res.render('comments/edit', {artwork_id: req.params.id, comment: foundComment});
+//         }
+//     });
+// });
 
 // comment update route
-router.put('/artworks/:id/comments/:comment_id', middleware.checkCommentOwnership, function(req, res){
+router.put('/artworks/:id/comments/:comment_id', function(req, res){
     // find the comment and update it
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, foundComment){
         if (err) {
@@ -81,7 +77,7 @@ router.put('/artworks/:id/comments/:comment_id', middleware.checkCommentOwnershi
 });
 
 // comment destroy route
-router.delete('/artworks/:id/comments/:comment_id', middleware.checkCommentOwnership, function(req, res){
+router.delete('/artworks/:id/comments/:comment_id', middleware.isLoggedIn, function(req, res){
     // find and delete the comment
     Comment.findByIdAndDelete(req.params.comment_id, function(err){
         if (err) {

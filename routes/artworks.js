@@ -66,7 +66,7 @@ router.get('/:id', function(req, res){
 });
 
 // artwork edit route
-router.get('/:id/edit', middleware.checkArtworkOwnership, function(req, res){
+router.get('/:id/edit', middleware.isLoggedIn, function(req, res){
     Artwork.findById(req.params.id, function(err, editedArtwork){
         // render foundArtwork's edit form
         res.render('artworks/edit', {artwork: editedArtwork});
@@ -74,7 +74,7 @@ router.get('/:id/edit', middleware.checkArtworkOwnership, function(req, res){
 });
 
 // artwork update route
-router.put('/:id', middleware.checkArtworkOwnership, function(req, res){
+router.put('/:id', middleware.isLoggedIn, function(req, res){
     // find artwork with provided id
     Artwork.findByIdAndUpdate(req.params.id, req.body.artwork, function(err, updatedArtwork){
         if (err) {
@@ -89,7 +89,7 @@ router.put('/:id', middleware.checkArtworkOwnership, function(req, res){
 });
 
 // artwork destroy route
-router.delete('/:id', middleware.checkArtworkOwnership, function(req, res){
+router.delete('/:id', middleware.isLoggedIn, function(req, res){
     // find artwork with provided id
     Artwork.findByIdAndDelete(req.params.id, function(err){
         if (err) {

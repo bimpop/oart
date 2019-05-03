@@ -3,21 +3,20 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <div class="card mb-3">
+            <div class="card border-info mb-3">
                 <img class="card-img-top" src="<%= artwork.image %>" alt="<%= artwork.title %>">
                 <div class="card-body">
                     <p class="float-right"># 1, 200</p>
                     <h1 class="h4"><%= artwork.title %></h1>
                     <p><%= artwork.desc %></p>
-                    <p><em><i class="fas fa-user-alt"></i> Submitted By <%= artwork.author.username %></em></p>
 
                     <!-- hide buttons from unauth user -->
-                    <% if(currentUser && (currentUser._id.equals(artwork.author.id) || currentUser.isAdmin)){ %>
-                        <a class="btn btn-sm btn-warning mr-2" href="/artworks/<%= artwork._id %>/edit">
+                    <% if(currentUser){ %>
+                        <a class="btn btn-sm btn-outline-warning mr-2" href="/artworks/<%= artwork._id %>/edit">
                             Edit
                         </a>
                         <form class="d-inline" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-sm btn-danger">Delete</button>
+                            <button class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
                     <% } %>
                     
@@ -28,16 +27,12 @@
 
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <div class="card">
-                <div class="card-header">
+            <div class="card border-info">
+                <div class="card-header bg-dark text-white">
                     <h4 class="d-inline h6">Comments</h4>
-                    <% if(currentUser){ %>
-                        <a class="btn btn-sm btn-success float-right" data-toggle="collapse" role="button" href="#commentNew" aria-expanded="false" aria-controls="commentNew">
-                        Add New Comment
+                    <a class="btn btn-sm btn-outline-info float-right" data-toggle="collapse" role="button" href="#commentNew" aria-expanded="false" aria-controls="commentNew">
+                    Add New Comment
                     </a>
-                    <% } else { %>
-                        <span class="float-right">Login to comment</span>
-                    <% }%>
                 </div>
 
                 <!-- collapse comment form -->
@@ -46,15 +41,15 @@
                 <% artwork.comments.reverse().forEach(function(comment){ %>
                     <div class="card-body">
                         <em class="float-right">3 days ago</em>
-                        <h6 class="card-subtitle"><i class="fas fa-user-alt"></i> <%= comment.author.username %></h6>
+                        <h6 class="card-subtitle"><i class="fas fa-user-alt"></i> <%= comment.author %></h6>
                         <p class="card-text mb-0"><%= comment.text %></p>
                         
                         <!-- hide buttons from unauth user -->
-                        <% if(currentUser && (currentUser._id.equals(comment.author.id) || currentUser.isAdmin)){ %>
+                        <% if(currentUser){ %>
                             <form class="float-right" action="/artworks/<%= artwork._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                                <button class="btn btn-sm btn-danger">Delete</button>
+                                <button class="btn btn-sm btn-outline-danger">Delete</button>
                             </form>
-                            <button type="button" class="float-right btn btn-sm btn-warning mr-2" data-toggle="modal" data-target="#commentEdit" data-username="<%= comment.author.username %>" data-text="<%= comment.text %>" data-art="<%= artwork._id %>" data-com="<%= comment._id %>">
+                            <button type="button" class="float-right btn btn-sm btn-outline-warning mr-2" data-toggle="modal" data-target="#commentEdit" data-author="<%= comment.author %>" data-text="<%= comment.text %>" data-art="<%= artwork._id %>" data-com="<%= comment._id %>">
                                 Edit
                             </button>
                             <!-- Comment Edit Modal  -->
@@ -63,6 +58,7 @@
                         
                     </div>
                 <% }); %>
+                
             </div>
         </div>
     </div>
