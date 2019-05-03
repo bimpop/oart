@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width: device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>O-Art</title>
     <link rel="stylesheet" href="/css/all.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -22,10 +22,14 @@
                 <ul class="navbar-nav ml-auto">
                     <% if(!currentUser){ %>
                         <li class="nav-item">
-                            <a class="nav-link" href="/signup"><i class="fas fa-user-plus"></i> Sign up</a>
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#signupModal">
+                                <i class="fas fa-user-plus"></i> Sign up
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt"></i> Log in</a>
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
+                                <i class="fas fa-sign-in-alt"></i> Log in
+                            </a>
                         </li>
                     <% } else { %>
                         <li class="nav-item">
@@ -39,6 +43,12 @@
             </div>
         </div>
     </nav>
+
+    <!-- MODALS -->
+    <!-- Signup Modal -->
+    <% include ../signup %>
+    <!-- Login Modal -->
+    <% include ../login %>
 
     <section class="container">
         <div class="container">
