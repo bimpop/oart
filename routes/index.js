@@ -10,11 +10,6 @@ router.get('/', function(req, res){
     res.render('home');
 });
 
-// // auth signup new route
-// router.get('/signup', function(req, res){
-//     res.render('signup');
-// });
-
 //auth signup create route
 router.post('/signup', function(req, res){
     const newUser = new User({username: req.body.username})
@@ -36,11 +31,6 @@ router.post('/signup', function(req, res){
         res.redirect('back');
     }  
 });
-
-// // auth login new route
-// router.get('/login', function(req, res){
-//     res.render('login');
-// });
 
 // auth login create route
 router.post('/login', passport.authenticate('local', {

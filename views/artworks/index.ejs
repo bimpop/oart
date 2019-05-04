@@ -6,7 +6,9 @@
             <h1><i class="fas fa-pencil-alt"></i> Welcome to O-Art Gallery</h1>
             <p class="lead">View our insightful collection of Artworks</p>
             <% if(currentUser){ %>
-                <a class="btn btn-info" href="/artworks/new">Add New Artwork</a>
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#artworkNew">Add New Artwork</button>
+                <!-- artwork new modal -->
+                <% include ./new %>
             <% } %>
         </div>
     </header>

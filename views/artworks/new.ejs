@@ -1,30 +1,37 @@
-<% include ../partials/header %>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-sm-push-3" style="margin:25px auto;">
-                <h1 class="text-center">Add New Artwork</h1>
-                <form class="form" action="/artworks" method="POST">
-                    <div class="form-group">
-                        <label for="title">Title:</label>
-                        <input id="title" class="form-control" type="text" name="artwork[title]">
-                    </div>
-                    <div class="form-group">
-                        <label for="image">Image:</label>
-                        <input id="image" class="form-control" type="text" name="artwork[image]">
-                    </div>
-                    <div class="form-group">
-                            <label for="desc">Description:</label>
-                            <textarea id="desc" class="form-control" name="artwork[desc]"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <input class="btn btn-primary" type="submit">
-                    </div>
-                </form>
-                <a href="/artworks">Back to Gallery</a>
+    <div class="modal fade text-left" id="artworkNew" tabindex="-1" aria-labelledby="artworkNewLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title" id="artworkNewLabel">Add New Artwork</h5>
+                    <button type="button" class="close btn btn-outline-danger" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="form" action="/artworks" method="POST">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input id="title" class="form-control" type="text" name="artwork[title]">
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image</label>
+                            <input id="image" class="form-control" type="text" name="artwork[image]">
+                        </div>
+                        <div class="form-group">
+                                <label for="desc">Description</label>
+                                <textarea id="desc" class="form-control" name="artwork[desc]"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input class="btn btn-info btn-block" type="submit">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal" aria-label="Close">
+                        Close
+                    </button>
+                </div>
             </div>
         </div>
-        
     </div>
-
-<% include ../partials/footer %>

@@ -22,11 +22,6 @@ router.get('/', function(req, res){
     });
 });
 
-// artworks new route
-router.get('/new', middleware.isLoggedIn, function(req, res) {
-    res.render('artworks/new');
-});
-
 // artworks create route
 router.post('/', middleware.isLoggedIn, function(req, res){
     // collect form data and add to DB
@@ -62,14 +57,6 @@ router.get('/:id', function(req, res){
             // render found artwork
             res.render('artworks/show', {artwork: foundArtwork});
         }
-    });
-});
-
-// artwork edit route
-router.get('/:id/edit', middleware.isLoggedIn, function(req, res){
-    Artwork.findById(req.params.id, function(err, editedArtwork){
-        // render foundArtwork's edit form
-        res.render('artworks/edit', {artwork: editedArtwork});
     });
 });
 

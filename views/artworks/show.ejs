@@ -12,9 +12,12 @@
 
                     <!-- hide buttons from unauth user -->
                     <% if(currentUser){ %>
-                        <a class="btn btn-sm btn-outline-warning mr-2" href="/artworks/<%= artwork._id %>/edit">
+                        <button type="button" class="btn btn-sm btn-outline-warning mr-2" data-toggle="modal" data-target="#artworkEdit">
                             Edit
-                        </a>
+                        </button>
+                        <!-- artwork edit modal -->
+                        <% include ./edit %>
+
                         <form class="d-inline" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-sm btn-outline-danger">Delete</button>
                         </form>
@@ -35,7 +38,7 @@
                     </a>
                 </div>
 
-                <!-- collapse comment form -->
+                <!-- comment new collapse -->
                 <% include ../comments/new %>
 
                 <% artwork.comments.reverse().forEach(function(comment){ %>
@@ -52,7 +55,7 @@
                             <button type="button" class="float-right btn btn-sm btn-outline-warning mr-2" data-toggle="modal" data-target="#commentEdit" data-author="<%= comment.author %>" data-text="<%= comment.text %>" data-art="<%= artwork._id %>" data-com="<%= comment._id %>">
                                 Edit
                             </button>
-                            <!-- Comment Edit Modal  -->
+                            <!-- comment edit modal  -->
                             <% include ../comments/edit %>
                         <% } %>
                         

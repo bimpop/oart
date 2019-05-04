@@ -9,20 +9,6 @@ const   express     = require('express'),
 // comments routes are NOT appended to /artworks/:id/comments
 // haven't figured out how to reference the req.params
 
-// comments new route
-// router.get('/artworks/:id/comments/new', middleware.isLoggedIn, function(req, res){
-//     // find artwork first
-//     Artwork.findById(req.params.id, function(err, foundArtwork){
-//         if (err) {
-//             console.log(err);
-//             res.redirect('/artworks');
-//         } else {
-//             // render add new comment form
-//             res.render('comments/new', {artwork: foundArtwork});
-//         }
-//     });
-// });
-
 //comments create route
 router.post('/artworks/:id/comments', function(req, res){
     // find artwork first
@@ -47,20 +33,6 @@ router.post('/artworks/:id/comments', function(req, res){
         }
     });
 });
-
-// comment edit route
-// router.get('/artworks/:id/comments/:comment_id/edit', middleware.isLoggedIn, function(req, res){
-//     // find comment
-//     Comment.findById(req.params.comment_id, function(err, foundComment){
-//         if (err) {
-//             console.log(err);
-//             res.redirect('/artworks' + req.params.id);
-//         } else {
-//             // render edit form
-//             res.render('comments/edit', {artwork_id: req.params.id, comment: foundComment});
-//         }
-//     });
-// });
 
 // comment update route
 router.put('/artworks/:id/comments/:comment_id', function(req, res){
