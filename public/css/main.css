@@ -1,0 +1,47 @@
+
+.nav-tabs {
+    border-bottom: 0;
+}
+
+.navbar {
+    border-bottom: #000 3px solid;
+    opacity: 0.95;
+}
+
+#home {
+    background: url('../pics/oart11.jpg') no-repeat center;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+#home .dark-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#home .fa-check {
+    color: #5bc0de;
+    background: #fff;
+    padding: 4px;
+    border-radius: 5px;
+    font-size: 30px;
+}
+
+.fad {
+    color: #fff;
+    background: #5bc0de;
+    padding: 3px;
+    border-radius: 3px;
+    font-size: 20px;
+}
+
+.fal {
+    background: #000;
+    color: #5bc0de;
+    padding: 3px;
+    border-radius: 3px;
+    font-size: 20px;
+}
+
+#contact label {
+    margin-bottom: 0;
+}

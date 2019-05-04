@@ -1,0 +1,39 @@
+
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-light">
+                <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+                <button type="button" class="close btn btn-outline-danger" data-dismiss="modal" aria-label="Close">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form" action="/contact" method="POST">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user-alt"></i> Name</label>
+                        <input class="form-control" type="text" name="contact[name]">
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input class="form-control" type="email" name="contact[email]">
+                    </div>
+                    <div class="form-group">
+                        <label for="message"><i class="fas fa-envelope-open-text"></i> Message</label>
+                        <textarea class="form-control" name="contact[message]"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input class="btn btn-dark btn-block" type="submit" value="Send">
+                    </div>
+                </form>
+                <a href="/artworks">Back to Gallery</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+    
+</div>
