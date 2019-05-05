@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main.css">
 </head>
-<body>
+<body class="bg-dark text-light">
 
     <!-- NAV BAR -->
     <nav  class="navbar navbar-expand-md sticky-top navbar-dark bg-info py-0">
@@ -21,7 +21,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="mainNavBar">
-                <ul class="navbar-nav nav-tabs mr-auto">
+                <ul class="navbar-nav nav-tabs mr-auto ml-md-5">
                     <li class="nav-item active"><a href="#home" class="nav-link">Home</a></li>
                     <li class="nav-item"><a href="#explore" class="nav-link">Explore</a></li>
                     <li class="nav-item"><a href="#contact" class="nav-link">Contact Us</a></li>
@@ -62,27 +62,27 @@
     <% include ./login %>
 
     <!-- HOME SECTION -->
-    <header id="home" class="text-light">
+    <header id="home">
         <div class="dark-overlay">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8 offset-md-2 pb-3">
-                        <h1 class="display-4">
+                    <div class="col-md-8 offset-md-2 mt-md-3 py-md-5">
+                        <h1 class="display-4 mb-md-5">
                             Get your <strong>portraits</strong> and other artworks done in <strong>high quality</strong>
                         </h1>
-                        <div class="d-flex flex-row p-2">
+                        <div class="d-flex flex-row p-2 p-md-3">
                             <div class="align-self-start">
                                 <i class="fas fa-check"></i>
                             </div>
                             <div class="ml-3 lead align-self-end">For great works of art! Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo, provident!</div>
                         </div>
-                        <div class="d-flex flex-row p-2">
+                        <div class="d-flex flex-row p-2 p-md-3">
                             <div class="align-self-start">
                                 <i class="fas fa-check"></i>
                             </div>
                             <div class="ml-3 lead align-self-end">For great works of art! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, porro?</div>
                         </div>
-                        <div class="d-flex flex-row p-2">
+                        <div class="d-flex flex-row p-2 p-md-3">
                             <div class="align-self-start">
                                 <i class="fas fa-check"></i>
                             </div>
@@ -95,11 +95,11 @@
     </header>
 
     <!-- EXPLORE -->
-    <section id="explore" class="pt-2">
+    <section id="explore" class="bg-secondary pt-2">
         <div class="container">
             <div class="row">
-                <div class="col-sm-8 offset-sm-2 text-center p-2">
-                    <h2 class="h3 mt-2 text-info">Explore Our Gallery and find the very Best</h2>
+                <div class="col-md-8 offset-md-2 text-center p-2">
+                    <h2 class="h3 mt-2 mb-md-3 text-info">Explore! Check Out Our Artwork Collection</h2>
                     <div class="carousel slide" id="carouselIndicators" data-ride="carousel">
                         <ol class="carousel-indicators">
                             <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
@@ -120,14 +120,14 @@
                             <span class="sr-only">Next</span>
                         </a>
                     </div>
-                    <a class="btn btn-lg btn-info my-3 mx-auto d-block" href="/artworks">View Gallery</a>
+                    <a class="btn btn-lg btn-info border-white my-3 mx-auto d-block" href="/artworks">View Gallery</a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CONTACT US -->
-    <section id="contact" class="bg-secondary text-light pt-2">
+    <section id="contact" class="pt-2">
         <div class="container">
             <div class="row">
                 <div class="col-sm-7 col-md-6 offset-md-1 col-lg-4 offset-lg-2">
@@ -176,7 +176,7 @@
     </section>
 
     <!-- ABOUT -->
-    <section id="about" class="bg-light pt-2">
+    <section id="about" class="bg-secondary pt-2">
         <div class="container">
             <div class="row">
                 <div class="col-sm-4 col-md-3 offset-md-1 col-lg-3 offset-lg-2 text-center">
@@ -205,7 +205,7 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-dark text-light p-2">
+    <footer class="bg-dark text-light p-2 border-top border-info">
         <div class="container">
             <div class="row">
                 <div class="col text-center">
