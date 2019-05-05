@@ -31,21 +31,26 @@
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <div class="card border-info">
-                <div class="card-header bg-dark text-white">
-                    <h4 class="d-inline h6">Comments</h4>
-                    <a class="btn btn-sm btn-outline-info float-right" data-toggle="collapse" role="button" href="#commentNew" aria-expanded="false" aria-controls="commentNew">
-                    Add New Comment
+                <div class="card-header bg-dark text-white p-2">
+                    <h4 class="h5">Comments</h4>
+                    <hr>
+                    <button class="btn btn-sm btn-secondary border-info" type="button" data-toggle="collapse" data-target="#commentShow" aria-expanded="false" aria-controls="commentShow">
+                        Show Comments
+                    </button>
+                    <a class="btn btn-sm btn-secondary border-info float-right" data-toggle="collapse" role="button" href="#commentNew" aria-expanded="false" aria-controls="commentNew">
+                        Add New Comment
                     </a>
                 </div>
 
                 <!-- comment new collapse -->
                 <% include ../comments/new %>
 
+                <div class="collapse" id="commentShow">
                 <% artwork.comments.reverse().forEach(function(comment){ %>
-                    <div class="card-body">
+                    <div class="card-body p-2">
                         <em class="float-right">3 days ago</em>
                         <h6 class="card-subtitle"><i class="fas fa-user-alt"></i> <%= comment.author %></h6>
-                        <p class="card-text mb-0"><%= comment.text %></p>
+                        <p class="card-text mb-0"><small><%= comment.text %></small></p>
                         
                         <!-- hide buttons from unauth user -->
                         <% if(currentUser){ %>
@@ -61,6 +66,8 @@
                         
                     </div>
                 <% }); %>
+                </div>
+                
                 
             </div>
         </div>
