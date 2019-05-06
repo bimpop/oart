@@ -1,0 +1,48 @@
+<% include ../partials/header %>
+
+<table class="table table-sm table-responsive table-striped table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col">Status</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Message</th>
+            <th scope="col">Message</th>
+            <th scope="col">Message</th>
+            <th scope="col">Toggle</th>
+            <th scope="col">
+                <button type="button" class="btn btn-outline-danger" data-toggle="collapse" data-target=".contactDelete" aria-expanded="false" aria-controls="contactDelete">
+                    Delete
+                </button>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <% let i = 1; contacts.forEach(function(contact){ %>
+            <tr>
+                <th scope="row"><%= i %></th>
+                <td><a href="<%= contact.image %>"><img class="img-fluid" width="32" height="32" src="<%= contact.image %>" alt="thumbnail"></a></td>
+                <td class="text-center"><input class="form-control" type="checkbox" <%= contact.status %> disabled></td>
+                <td><%= contact.name %></td>
+                <td><a href="mailto:<%= contact.email %>"><%= contact.email %></a></td>
+                <td colspan="3"><%= contact.message %></td>
+                <td>
+                    <form action="/contacts/<%= contact._id %>?_method=PUT" method="POST">
+                        <button class="btn btn-warning">
+                            <% if(contact.status === 'unchecked'){ %> Check <% } else { %> Uncheck <% } %>
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <form class="collapse contactDelete" action="/contacts/<%= contact._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        <% i++ }); %>
+    </tbody>
+</table>
+
+<% include ../partials/footer %>

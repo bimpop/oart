@@ -19,6 +19,7 @@ const middleware = require('./middleware');
 // import routes
 const   artworkRoutes   = require('./routes/artworks'),
         commentRoutes   = require('./routes/comments'),
+        contactRoutes   = require('./routes/contacts'),
         indexRoutes     = require('./routes/index');
 
 // connect to database
@@ -54,6 +55,7 @@ app.use(middleware.currentUser);
 // haven't figured out how to reference the req.params in the route file
 app.use('/artworks', artworkRoutes);
 app.use(commentRoutes);
+app.use('/contacts', contactRoutes);
 app.use(indexRoutes);
 
 // server listener
