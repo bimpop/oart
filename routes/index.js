@@ -35,7 +35,9 @@ router.post('/signup', function(req, res){
 // auth login create route
 router.post('/login', passport.authenticate('local', {
     successRedirect: 'back',
-    failureRedirect: 'back'
+    failureRedirect: 'back',
+    failureFlash: true,
+    successFlash: 'Welcome!'
 }), function(req, res){});
 
 // auth logout route
@@ -47,7 +49,7 @@ router.get('/logout', function(req, res){
 
 // page not found handler (ensure it's the last route!)
 router.get('*', function(req, res){
-    res.send('Sorry, the page you are requesting for could not be found.');
+    res.render('notfound');
 });
 
 module.exports = router;

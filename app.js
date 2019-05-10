@@ -11,6 +11,7 @@ const express               = require('express'),
     flash                   = require('connect-flash'),
     User                    = require('./models/user'),
     passport                = require('passport'),
+    cookieParser            = require('cookie-parser'),
     LocalStrategy           = require('passport-local');
 
 // import middlewares
@@ -38,6 +39,7 @@ app.use(expressSession({
     resave: false,
     saveUninitialized: false
 }));
+app.use(cookieParser('secret'));
 app.use(flash());
 
 // passport setup
