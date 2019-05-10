@@ -54,7 +54,7 @@ app.use(middleware.currentUser);
 // can't include route-link pre-appends for routes (commentRoutes in this case) with req.params
 // haven't figured out how to reference the req.params in the route file
 app.use('/artworks', artworkRoutes);
-app.use(commentRoutes);
+app.use('/artworks',commentRoutes);
 app.use('/contacts', contactRoutes);
 app.use(indexRoutes);
 

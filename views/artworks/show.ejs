@@ -52,7 +52,7 @@
                     <div class="card-body p-2">
                         <em class="float-right">3 days ago</em>
                         <h6 class="card-subtitle"><i class="fas fa-user-alt"></i> <%= comment.author %></h6>
-                        <p class="card-text mb-0"><small><%= comment.text %></small></p>
+                        <p class="card-text mb-0 ml-3"><%= comment.text %></p>
                         
                         <!-- hide buttons from unauth user -->
                         <% if(currentUser){ %>

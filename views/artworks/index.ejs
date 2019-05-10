@@ -24,13 +24,42 @@
                         <%= artwork.title %>
                     </h2>
                     <p class="card-text mb-1 text-truncate"><small><%= artwork.desc %></small></p>
-                    <a class="float-right btn btn-info btn-sm" href="/artworks/<%= artwork._id %>">more info</a>
+                    <a class="float-right btn btn-info btn-sm" href="/artworks/<%= current %>/<%= artwork._id %>">more info</a>
                 </div>
             </div>
         </div>
         <% }); %>
 
     </div>
+
+    <% if (pages > 0) { %>
+        <ul class="pagination justify-content-center">
+            <% if (current == 1) { %>
+                <li class="page-item disabled"><a class="page-link"><span aria-hidden="true">&laquo;</span> First</a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/artworks/1"><span aria-hidden="true">&laquo;</span> First</a></li>
+            <% } %>
+            <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+            <% if (i !== 1) { %>
+                <li class="page-item disabled"><a class="page-link">...</a></li>
+            <% } %>
+            <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                <% if (i == current) { %>
+                    <li class="page-item active"><a class="page-link"><%= i %></a></li>
+                <% } else { %>
+                    <li class="page-item"><a class="page-link" href="/artworks/<%= i %>"><%= i %></a></li>
+                <% } %>
+                <% if (i == Number(current) + 4 && i < pages) { %>
+                    <li class="page-item disabled"><a class="page-link">...</a></li>
+                <% } %>
+            <% } %>
+            <% if (current == pages) { %>
+                <li class="page-item disabled"><a class="page-link">Last <span aria-hidden="true">&raquo;</span></a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/artworks/<%= pages %>">Last <span aria-hidden="true">&raquo;</span></a></li>
+            <% } %>
+        </ul>
+    <% } %>
 
 </div>
 

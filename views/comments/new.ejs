@@ -1,6 +1,6 @@
 
 <div id="commentNew" class="collapse card-body">
-    <form class="form" action="/artworks/<%= artwork._id %>/comments" method="POST">
+    <form class="form" action="/artworks/<%= current %>/<%= artwork._id %>/comments" method="POST">
         <div class="form-group">
             <label for="author">Name</label>
             <input id="author" class="form-control" name="comment[author]" placeholder="Your name">
