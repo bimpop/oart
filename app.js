@@ -39,8 +39,10 @@ app.use(expressSession({
     resave: false,
     saveUninitialized: false
 }));
-app.use(cookieParser('secret'));
+app.use(cookieParser(process.env.EXPRESS_SESSION_SECRET));
 app.use(flash());
+//require moment
+app.locals.moment = require('moment');
 
 // passport setup
 app.use(passport.initialize());

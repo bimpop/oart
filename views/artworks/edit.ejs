@@ -16,7 +16,8 @@
                         </div>
                         <div class="form-group">
                             <label for="image">Image</label>
-                            <input id="image" class="form-control" type="text" name="artwork[image]" value="<%= artwork.image %>">
+                            <input id="image" class="form-control-file" type="file" name="artwork[image]" value="<%= artwork.image %>">
+                            <small class="form-text text-muted">Image file cannot exceed 10 MB</small>
                         </div>
                         <div class="form-group">
                             <label for="desc">Description</label>

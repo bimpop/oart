@@ -6,7 +6,7 @@
             <div class="card border-info mb-3">
                 <img class="card-img-top" src="<%= artwork.image %>" alt="<%= artwork.title %>">
                 <div class="card-body">
-                    <em class="float-right"># 1, 200</em>
+                    <em class="float-right"><%= moment(artwork.createdAt).fromNow() %></em>
                     <h1 class="h4"><%= artwork.title %></h1>
                     <p><%= artwork.desc %></p>
 
@@ -50,7 +50,7 @@
                 <div class="collapse" id="commentShow">
                 <% artwork.comments.reverse().forEach(function(comment){ %>
                     <div class="card-body p-2">
-                        <em class="float-right">3 days ago</em>
+                        <em class="float-right"><%= moment(comment.createdAt).fromNow() %></em>
                         <h6 class="card-subtitle"><i class="fas fa-user-alt"></i> <%= comment.author %></h6>
                         <p class="card-text mb-0 ml-3"><%= comment.text %></p>
                         

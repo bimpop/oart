@@ -3,7 +3,28 @@
 const   express     = require('express'),
         router      = express.Router(),
         Contact     = require('../models/contact'),
-        middleware  = require('../middleware');
+        middleware  = require('../middleware'),
+        multer      = require('multer'),
+        storage     = multer.diskStorage({
+            filename: function(req, file, callback){
+                callback(null, Date.now() + file.originalname);
+            }
+        }),
+        imageFilter = function(req, file, cb){
+            //accept image files only
+            if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)){
+                return cb(new Error('Only image files are allowed!'), false);
+            }
+            cb(null, true);
+        },
+        upload      = multer({ storage: storage, fileFilter: imageFilter}),
+        cloudinary  = require('cloudinary');
+
+        cloudinary.config({
+            cloud_name: 'dnux4edg8',
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET
+        });
 
 // contacts routes are appended to /artworks
 
@@ -21,7 +42,11 @@ router.get('/', middleware.isLoggedIn, function(req, res){
 });
 
 // contact create route
-router.post('/', middleware.isLoggedIn, function(req, res){
+router.post('/', middleware.isLoggedIn, upload.single('image'), function(req, res){
+    cloudinary.uploader.upload(req.file.path, function(result){
+        // add cloudinary url for the image to the artwork object under image property
+            req.body.contact.image = result.secure_url;
+    });
     Contact.create(req.body.contact, function(err, newContact){
         if (err) {
             console.log(err);

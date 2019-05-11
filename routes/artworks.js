@@ -3,7 +3,28 @@
 const   express     = require('express'),
         router      = express.Router(),
         Artwork     = require('../models/artwork'),
-        middleware  = require('../middleware');
+        middleware  = require('../middleware'),
+        multer      = require('multer'),
+        storage     = multer.diskStorage({
+            filename: function(req, file, callback){
+                callback(null, Date.now() + file.originalname);
+            }
+        }),
+        imageFilter = function(req, file, cb){
+            //accept image files only
+            if(!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)){
+                return cb(new Error('Only image files are allowed!'), false);
+            }
+            cb(null, true);
+        },
+        upload      = multer({ storage: storage, fileFilter: imageFilter}),
+        cloudinary  = require('cloudinary');
+
+        cloudinary.config({
+            cloud_name: 'dnux4edg8',
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET
+        });
 
 // artwork routes are appended to /artworks
 
@@ -33,7 +54,11 @@ router.get('/:page', function(req, res, next){
 });
 
 // artworks create route
-router.post('/:page', middleware.isLoggedIn, function(req, res){
+router.post('/:page', middleware.isLoggedIn, upload.single('image'), function(req, res){
+    cloudinary.uploader.upload(req.file.path, function(result){
+        // add cloudinary url for the image to the artwork object under image property
+            req.body.artwork.image = result.secure_url;
+    });
     // collect form data and add to DB
     Artwork.create(req.body.artwork, function(err, newArtwork){
         if(err){
@@ -72,7 +97,11 @@ router.get('/:page/:id', function(req, res){
 });
 
 // artwork update route
-router.put('/:page/:id', middleware.isLoggedIn, function(req, res){
+router.put('/:page/:id', middleware.isLoggedIn, upload.single('image'), function(req, res){
+    cloudinary.uploader.upload(req.file.path, function(result){
+        // add cloudinary url for the image to the artwork object under image property
+            req.body.artwork.image = result.secure_url;
+    });
     // find artwork with provided id
     Artwork.findByIdAndUpdate(req.params.id, req.body.artwork, function(err, updatedArtwork){
         if (err) {
