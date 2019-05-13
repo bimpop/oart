@@ -44,7 +44,7 @@ router.post('/login', passport.authenticate('local', {
 router.get('/logout', function(req, res){
     req.logout();
     req.flash('success', 'See you later!');
-    res.redirect('/artworks');
+    res.redirect('/artworks/1');
 });
 
 // page not found handler (ensure it's the last route!)

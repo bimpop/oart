@@ -64,14 +64,14 @@ router.post('/:page', middleware.isLoggedIn, upload.single('image'), function(re
         if(err){
             req.flash('error', err.message);
             // redirect to index route
-            res.redirect('/artworks');
+            res.redirect('/artworks/' + req.params.page);
         }else {
             // add username and id to comment and save
             newArtwork.author.id = req.user._id;
             newArtwork.author.username = req.user.username;
             newArtwork.save();
             // redirect to index route
-            res.redirect('/artworks'); 
+            res.redirect('/artworks/1'); 
         }
     });
 });

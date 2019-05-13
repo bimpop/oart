@@ -13,7 +13,7 @@
             <th scope="col">Message</th>
             <th scope="col">Toggle</th>
             <th scope="col">
-                <button type="button" class="btn btn-outline-danger" data-toggle="collapse" data-target=".contactDelete" aria-expanded="false" aria-controls="contactDelete">
+                <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="collapse" data-target=".contactDelete" aria-expanded="false" aria-controls="contactDelete">
                     Delete
                 </button>
             </th>
@@ -37,7 +37,7 @@
                 </td>
                 <td>
                     <form class="collapse contactDelete" action="/contacts/<%= contact._id %>?_method=DELETE" method="POST">
-                        <button class="btn btn-danger">Delete</button>
+                        <button class="btn btn-sm btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>
