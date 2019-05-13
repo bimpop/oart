@@ -3,7 +3,7 @@
     <form class="form" action="/artworks/<%= current %>/<%= artwork._id %>/comments" method="POST">
         <div class="form-group">
             <label for="author">Name</label>
-            <input id="author" class="form-control" name="comment[author]" placeholder="Your name">
+            <input id="author" class="form-control" name="comment[author]" placeholder="Your name" required>
         </div>
         <div class="form-group">
             <label for="text">Text</label>
