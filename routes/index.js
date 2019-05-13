@@ -3,11 +3,19 @@
 const   express     = require('express'),
         router      = express.Router(),
         passport    = require('passport'),
-        User        = require('../models/user');
+        User        = require('../models/user'),
+        Artworks    = require('../models/artwork');
 
 // root route - homepage
 router.get('/', function(req, res){
-    res.render('home');
+    Artworks.find({}, (err, artworks) => {
+        if (err) {
+            req.flash('error', 'Could load artworks.');
+            res.redirect('/artworks/1');
+        } else {
+            res.render('home', {artworks: artworks.reverse().slice(0, 3)});
+        }
+    });
 });
 
 //auth signup create route
