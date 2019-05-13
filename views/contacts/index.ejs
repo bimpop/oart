@@ -20,29 +20,58 @@
         </tr>
     </thead>
     <tbody>
-        <% let i = 1; contacts.forEach(function(contact){ %>
+        <% let j = 1; contacts.forEach(function(contact){ %>
             <tr>
-                <th scope="row"><%= i %></th>
+                <th scope="row"><%= j %></th>
                 <td><a href="<%= contact.image %>"><img class="img-fluid" width="32" height="32" src="<%= contact.image %>" alt="thumbnail"></a></td>
                 <td class="text-center"><input class="form-control" type="checkbox" <%= contact.status %> disabled></td>
                 <td><%= contact.name %></td>
                 <td><a href="mailto:<%= contact.email %>"><%= contact.email %></a></td>
                 <td colspan="3"><%= contact.message %></td>
                 <td>
-                    <form action="/contacts/<%= contact._id %>?_method=PUT" method="POST">
+                    <form action="/contacts/<%= current %>/<%= contact._id %>?_method=PUT" method="POST">
                         <button class="btn btn-warning">
                             <% if(contact.status === 'unchecked'){ %> Check <% } else { %> Uncheck <% } %>
                         </button>
                     </form>
                 </td>
                 <td>
-                    <form class="collapse contactDelete" action="/contacts/<%= contact._id %>?_method=DELETE" method="POST">
+                    <form class="collapse contactDelete" action="/contacts/<%= current %>/<%= contact._id %>?_method=DELETE" method="POST">
                         <button class="btn btn-sm btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>
-        <% i++ }); %>
+        <% j++ }); %>
     </tbody>
 </table>
+
+<% if (pages > 0) { %>
+    <ul class="pagination justify-content-center">
+        <% if (current == 1) { %>
+            <li class="page-item disabled"><a class="page-link"><span aria-hidden="true">&laquo;</span> First</a></li>
+        <% } else { %>
+            <li class="page-item"><a class="page-link" href="/contacts/1"><span aria-hidden="true">&laquo;</span> First</a></li>
+        <% } %>
+        <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+        <% if (i !== 1) { %>
+            <li class="page-item disabled"><a class="page-link">...</a></li>
+        <% } %>
+        <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+            <% if (i == current) { %>
+                <li class="page-item active"><a class="page-link"><%= i %></a></li>
+            <% } else { %>
+                <li class="page-item"><a class="page-link" href="/contacts/<%= i %>"><%= i %></a></li>
+            <% } %>
+            <% if (i == Number(current) + 4 && i < pages) { %>
+                <li class="page-item disabled"><a class="page-link">...</a></li>
+            <% } %>
+        <% } %>
+        <% if (current == pages) { %>
+            <li class="page-item disabled"><a class="page-link">Last <span aria-hidden="true">&raquo;</span></a></li>
+        <% } else { %>
+            <li class="page-item"><a class="page-link" href="/contacts/<%= pages %>">Last <span aria-hidden="true">&raquo;</span></a></li>
+        <% } %>
+    </ul>
+<% } %>
 
 <% include ../partials/footer %>

@@ -29,20 +29,32 @@ const   express     = require('express'),
 // contacts routes are appended to /artworks
 
 // contact index route
-router.get('/', middleware.isLoggedIn, function(req, res){
-    Contact.find({}, function(err, contacts){
-        if (err) {
-            console.log(err);
-            req.flash('error', err.message);
-            res.redirect('back');
-        } else {
-            res.render('contacts/index', {contacts: contacts.reverse()});
-        }
-    });
+router.get('/:page', middleware.isLoggedIn, function(req, res){
+    var perPage = 10;
+    var page = req.params.page || 1
+    // get all contacts from DB first
+    Contact
+        .find({})
+        .skip((perPage * page) - perPage)
+        .limit(perPage)
+        .exec(function(err, contacts){
+            Contact.countDocuments().exec(function(err, count){
+                if (err) {
+                    req.flash('error', 'Sorry, unable to load contacts.');
+                    res.redirect('back');
+                } else {
+                    res.render('contacts/index', {
+                        contacts: contacts.reverse(),
+                        current: page,
+                        pages: Math.ceil(count / perPage)
+                    });
+                } 
+            });
+        });
 });
 
 // contact create route
-router.post('/', middleware.isLoggedIn, upload.single('image'), function(req, res){
+router.post('/:page', middleware.isLoggedIn, upload.single('image'), function(req, res){
     cloudinary.uploader.upload(req.file.path, function(result){
         // add cloudinary url for the image to the artwork object under image property
             req.body.contact.image = result.secure_url;
@@ -60,7 +72,7 @@ router.post('/', middleware.isLoggedIn, upload.single('image'), function(req, re
 });
 
 // contact update route
-router.put('/:contact_id', function(req, res){
+router.put('/:page/:contact_id', function(req, res){
     Contact.findById(req.params.contact_id, function(err, foundContact){
         if (err) {
             console.log(err);
@@ -76,20 +88,20 @@ router.put('/:contact_id', function(req, res){
                 foundContact.save();
                 req.flash('success', 'Contact checked.');
             }
-            res.redirect('/contacts');
+            res.redirect('/contacts/' + req.params.page);
         }
     });
 });
 
 // contact delete route
-router.delete('/:contact_id', function(req, res){
+router.delete('/:page/:contact_id', function(req, res){
     Contact.findByIdAndDelete(req.params.contact_id, function(err){
         if (err) {
             console.log(err);
             req.flash('error', 'Unable to find or delete the contact.');
             res.redirect('back');
         } else {
-            res.redirect('/contacts');
+            res.redirect('/contacts/' + req.params.page);
         }
     })
 });

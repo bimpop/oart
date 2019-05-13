@@ -18,7 +18,7 @@
                         <!-- artwork edit modal -->
                         <% include ./edit %>
 
-                        <form class="d-inline" action="/artworks/<%= artwork._id %>?_method=DELETE" method="POST">
+                        <form class="d-inline" action="/artworks/<%= current %>/<%= artwork._id %>?_method=DELETE" method="POST">
                             <button class="btn btn-sm btn-outline-danger">
                                 Delete
                             </button>
@@ -49,7 +49,7 @@
 
                 <div class="collapse" id="commentShow">
                 <% artwork.comments.reverse().forEach(function(comment){ %>
-                    <div class="card-body p-2">
+                    <div class="card-body p-2 mb-3">
                         <em class="float-right"><%= moment(comment.createdAt).fromNow() %></em>
                         <h6 class="card-subtitle"><i class="fas fa-user-alt"></i> <%= comment.author %></h6>
                         <p class="card-text mb-0 ml-3"><%= comment.text %></p>
