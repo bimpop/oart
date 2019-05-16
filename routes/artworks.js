@@ -21,7 +21,7 @@ const   express     = require('express'),
         cloudinary  = require('cloudinary');
 
         cloudinary.config({
-            cloud_name: 'dnux4edg8',
+            cloud_name: 'o-art',
             api_key: process.env.CLOUDINARY_API_KEY,
             api_secret: process.env.CLOUDINARY_API_SECRET
         });
@@ -57,7 +57,7 @@ router.get('/:page', function(req, res, next){
 router.post('/:page', middleware.isLoggedIn, upload.single('image'), function(req, res){
     cloudinary.uploader.upload(req.file.path, function(result){
         // add cloudinary url for the image to the artwork object under image property
-            req.body.artwork.image = result.secure_url;
+        req.body.artwork.image = result.secure_url;
     });
     // collect form data and add to DB
     Artwork.create(req.body.artwork, function(err, newArtwork){
@@ -100,7 +100,7 @@ router.get('/:page/:id', function(req, res){
 router.put('/:page/:id', middleware.isLoggedIn, upload.single('image'), function(req, res){
     cloudinary.uploader.upload(req.file.path, function(result){
         // add cloudinary url for the image to the artwork object under image property
-            req.body.artwork.image = result.secure_url;
+        req.body.artwork.image = result.secure_url;
     });
     // find artwork with provided id
     Artwork.findByIdAndUpdate(req.params.id, req.body.artwork, function(err, updatedArtwork){

@@ -13,7 +13,7 @@ router.get('/', function(req, res){
             req.flash('error', 'Could load artworks.');
             res.redirect('/artworks/1');
         } else {
-            res.render('home', {artworks: artworks.reverse().slice(0, 3)});
+            res.render('home', {artworks: artworks.reverse()});
         }
     });
 });
