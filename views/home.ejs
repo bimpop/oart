@@ -3,7 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>O-Art</title>
+    <meta name="description" content="To get affordable Portraits and Artworks of great quality online,
+        O-Art is the site you need to visit.
+        You can purchase from our available stock accessible in our gallery collection,
+        or you can send us a request with the image of the portrait or artwork you want drawn.">
+    <title>O-Art - Purchase your Portraits and Artworks</title>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="/css/all.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -15,7 +19,7 @@
     <nav  class="navbar navbar-expand-md sticky-top navbar-dark bg-info py-0">
         <div class="container">
             <a href="/" class="navbar-brand">
-                <img src="/logo.png" width="32" alt="logo"> O-Art
+                <img src="/logo.png" width="32" alt="O-Art Logo"> O-Art
             </a>
             <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavBar">
                 <span class="navbar-toggler-icon"></span>
@@ -121,7 +125,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 offset-md-2 text-center p-2">
-                    <h2 class="h3 mt-2 mb-md-3 text-info">Explore! Check Out Our Artworks</h2>
+                    <h2 class="h3 mt-2 mb-md-3 text-info">Explore! Check Out Our Portraits and Artworks</h2>
                     <% if(artworks.length >= 3){ %>
                     <div class="carousel slide" id="carouselIndicators" data-ride="carousel">
                         <ol class="carousel-indicators">
@@ -131,7 +135,7 @@
                         </ol>
                         <div class="carousel-inner">
                             <% artworks.slice(0, 3).map((artwork, index) => { %>
-                                <div class="carousel-item <% if(index===0){ %> active <% } %>"><img class="img-fluid d-block w-50 mx-auto" src="<%= artwork.image %>" alt="<%= artwork.image %>"></div>
+                                <div class="carousel-item <% if(index===0){ %> active <% } %>"><img class="img-fluid d-block w-50 mx-auto" src="<%= artwork.image %>" alt="<%= artwork.title %>"></div>
                             <% }) %>
                         </div>
                         <a href="#carouselIndicators" class="carousel-control-prev" role="button" data-slide="prev">
@@ -156,7 +160,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-7 col-md-6 offset-md-1 col-lg-4 offset-lg-2">
-                    <h2 class="h3 mt-3 text-info">Contact Us for your own Portrait Today</h2>
+                    <h2 class="h3 mt-3 text-info">Contact Us for your own Portrait / Artwork Today</h2>
                     <p class="lead mb-1">To get your own Artwork done, Please fill the form.</p>
                     <div class="d-flex flex-row p-2">
                         <div class="align-self-start">
@@ -181,7 +185,7 @@
                     <div class="card p-0 bg-info">
                         <div class="card-header p-0 text-center">
                             <h3 class="card-title h5 mb-1">Contact Form</h3>
-                            <p class="mb-0">Fill this form to get your Artwork done</p>
+                            <p class="mb-0">Fill this form to get your Portrait / Artwork done</p>
                         </div>
                         <div class="card-body px-2 py-1">
                             <form action="/contacts" method="POST">
@@ -217,7 +221,7 @@
             <div class="row">
                 <div class="col-sm-4 col-md-3 offset-md-1 col-lg-3 offset-lg-2 text-center">
                     <div class="py-2">
-                        <img class="img-thumbnail" height="114" width="114" src="./pics/oart00.jpg" alt="about">
+                        <img class="img-thumbnail" height="114" width="114" src="./pics/oart00.jpg" alt="About O-Art">
                     </div>
                 </div>
                 <div class="col-sm-8 col-md-7 col-lg-6">

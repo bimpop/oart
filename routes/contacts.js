@@ -26,7 +26,7 @@ const   express     = require('express'),
             api_secret: process.env.CLOUDINARY_API_SECRET
         });
 
-// contacts routes are appended to /artworks
+// contacts routes are appended to /contacts
 
 // contact index route
 router.get('/:page', middleware.isLoggedIn, function(req, res){
