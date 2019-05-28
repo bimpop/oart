@@ -1,8 +1,8 @@
 
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 // contact schema
-const contactSchema = new mongoose.Schema({
+var contactSchema = new mongoose.Schema({
     name: String,
     email: String,
     image: String,

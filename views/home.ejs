@@ -134,7 +134,7 @@
                             <li data-target="#carouselIndicators" data-slide-to="2"></li>
                         </ol>
                         <div class="carousel-inner">
-                            <% artworks.slice(0, 3).map((artwork, index) => { %>
+                            <% artworks.slice(0, 3).map(function(artwork, index){ %>
                                 <div class="carousel-item <% if(index===0){ %> active <% } %>"><img class="img-fluid d-block w-50 mx-auto" src="<%= artwork.image %>" alt="<%= artwork.title %>"></div>
                             <% }) %>
                         </div>

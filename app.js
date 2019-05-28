@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 // require necessary modules
-const express               = require('express'),
+var express               = require('express'),
     app                     = express(),
     bodyParser              = require('body-parser'),
     methodOverride          = require('method-override'),
@@ -15,10 +15,10 @@ const express               = require('express'),
     LocalStrategy           = require('passport-local');
 
 // import middlewares
-const middleware = require('./middleware');
+var middleware = require('./middleware');
 
 // import routes
-const   artworkRoutes   = require('./routes/artworks'),
+var   artworkRoutes   = require('./routes/artworks'),
         commentRoutes   = require('./routes/comments'),
         contactRoutes   = require('./routes/contacts'),
         indexRoutes     = require('./routes/index');

@@ -1,6 +1,6 @@
 // ARTWORKS ROUTES
 
-const   express     = require('express'),
+var   express     = require('express'),
         router      = express.Router(),
         Artwork     = require('../models/artwork'),
         middleware  = require('../middleware'),

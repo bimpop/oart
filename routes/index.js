@@ -1,6 +1,6 @@
 // AUTH ROUTES
 
-const   express     = require('express'),
+var   express     = require('express'),
         router      = express.Router(),
         passport    = require('passport'),
         User        = require('../models/user'),
@@ -20,7 +20,7 @@ router.get('/', function(req, res){
 
 //auth signup create route
 router.post('/signup', function(req, res){
-    const newUser = new User({username: req.body.username})
+    var newUser = new User({username: req.body.username})
     // admin logic
     if(req.body.password === process.env.ADMIN_CODE){
         User.register(newUser, req.body.password, function(err, user){

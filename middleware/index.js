@@ -1,9 +1,9 @@
 // MIDDLEWARE
 
-const   Artwork = require('../models/artwork'),
+var   Artwork = require('../models/artwork'),
         Comment = require('../models/comment');
 
-const middlewareObj = {};
+var middlewareObj = {};
 
 middlewareObj.currentUser = function currentUser(req, res, next){
     res.locals.currentUser  = req.user;

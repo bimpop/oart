@@ -1,6 +1,6 @@
 // CONTACTS ROUTES
 
-const   express     = require('express'),
+var   express     = require('express'),
         router      = express.Router(),
         Contact     = require('../models/contact'),
         middleware  = require('../middleware'),

@@ -1,8 +1,8 @@
 
-const mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 // artwork schema
-const artworkSchema = new mongoose.Schema({
+var artworkSchema = new mongoose.Schema({
     title: String,
     image: String,
     desc: String,

@@ -1,6 +1,6 @@
 // COMMENTS ROUTES
 
-const   express     = require('express'),
+var   express     = require('express'),
         router      = express.Router(),
         Artwork     = require('../models/artwork'),
         Comment     = require('../models/comment'),
