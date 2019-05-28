@@ -24,7 +24,7 @@ var   artworkRoutes   = require('./routes/artworks'),
         indexRoutes     = require('./routes/index');
 
 // connect to database
-mongoose.connect('mongodb://localhost/oart' || process.env.DATABASE_URL, {useNewUrlParser: true});
+mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
 
 // set to use native findOneAndUpdate() rather than deprecated findAndModify()
 mongoose.set('useFindAndModify', false);
