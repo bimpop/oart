@@ -23,11 +23,16 @@ var   artworkRoutes   = require('./routes/artworks'),
         contactRoutes   = require('./routes/contacts'),
         indexRoutes     = require('./routes/index');
 
-// connect to database
-mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true});
-
 // set to use native findOneAndUpdate() rather than deprecated findAndModify()
 mongoose.set('useFindAndModify', false);
+
+// connect to database
+mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true}, function(err){
+    if(err){
+        console.log('My [Mongoose.connect()] err' + err);
+        req.flash('error', 'Database Connection Error');
+    }
+});
 
 // other modules setups
 app.use(bodyParser.urlencoded({extended: true}));
@@ -39,7 +44,12 @@ app.use(expressSession({
     resave: false,
     saveUninitialized: false
 }));
-app.use(cookieParser(process.env.EXPRESS_SESSION_SECRET));
+/*
+    *connect.session() MemoryStore is not
+    designed for a production environment, as it will leak
+    memory, and will not scale past a single process
+*/
+// app.use(cookieParser(process.env.EXPRESS_SESSION_SECRET));
 app.use(flash());
 //require moment
 app.locals.moment = require('moment');
