@@ -8,6 +8,7 @@ var express               = require('express'),
     methodOverride          = require('method-override'),
     mongoose                = require('mongoose'),
     expressSession          = require('express-session'),
+    MongoStore              = require('connect-mongo')(expressSession),
     flash                   = require('connect-flash'),
     User                    = require('./models/user'),
     passport                = require('passport'),
@@ -40,6 +41,10 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 app.use(expressSession({
+    cookie: {
+        secure: true
+    },
+    store: new MongoStore(options),
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false
@@ -49,7 +54,7 @@ app.use(expressSession({
     designed for a production environment, as it will leak
     memory, and will not scale past a single process
 */
-// app.use(cookieParser(process.env.EXPRESS_SESSION_SECRET));
+app.use(cookieParser(process.env.EXPRESS_SESSION_SECRET));
 app.use(flash());
 //require moment
 app.locals.moment = require('moment');
