@@ -42,9 +42,9 @@ app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 app.use(expressSession({
     cookie: {
-        secure: true
+        maxAge: 1000 * 60 * 60 * 24
     },
-    store: new MongoStore(),
+    store: new MongoStore({ url: process.env.DATABASE_URL }),
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false
