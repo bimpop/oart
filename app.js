@@ -44,7 +44,7 @@ app.use(expressSession({
     cookie: {
         secure: true
     },
-    store: new MongoStore(options),
+    store: new MongoStore(),
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false
