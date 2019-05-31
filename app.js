@@ -44,7 +44,7 @@ app.use(expressSession({
     cookie: {
         maxAge: 1000 * 60 * 60 * 24
     },
-    store: new MongoStore({ url: process.env.DATABASE_URL }),
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
     secret: process.env.EXPRESS_SESSION_SECRET,
     resave: false,
     saveUninitialized: false
