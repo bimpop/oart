@@ -1,6 +1,6 @@
 // ARTWORKS ROUTES
 
-var   express     = require('express'),
+var   express       = require('express'),
         router      = express.Router(),
         Artwork     = require('../models/artwork'),
         middleware  = require('../middleware'),
@@ -55,24 +55,31 @@ router.get('/:page', function(req, res, next){
 
 // artworks create route
 router.post('/:page', middleware.isLoggedIn, upload.single('image'), function(req, res){
-    cloudinary.uploader.upload(req.file.path, function(result){
+    cloudinary.v2.uploader.upload(req.file.path, function(err, result){
+        if (err) {
+            req.flash('error', 'Unable to upload image to cloudinary.');
+            return res.redirect('back');
+        }
         // add cloudinary url for the image to the artwork object under image property
         req.body.artwork.image = result.secure_url;
-    });
-    // collect form data and add to DB
-    Artwork.create(req.body.artwork, function(err, newArtwork){
-        if(err){
-            req.flash('error', err.message);
-            // redirect to index route
-            res.redirect('/artworks/' + req.params.page);
-        }else {
-            // add username and id to comment and save
-            newArtwork.author.id = req.user._id;
-            newArtwork.author.username = req.user.username;
-            newArtwork.save();
-            // redirect to index route
-            res.redirect('/artworks/1'); 
+        // add image's public_id to artwork object
+        req.body.artwork.imageId = result.public_id;
+        //add author to artwork
+        req.body.artwork.author = {
+            id: req.user._id,
+            username: req.user.username
         }
+        // collect form data and add to DB
+        Artwork.create(req.body.artwork, function(err, newArtwork){
+            if(err){
+                req.flash('error', err.message);
+                // redirect to index route
+                res.redirect('/artworks/' + req.params.page);
+            }else {
+                // redirect to index route
+                res.redirect('/artworks/1'); 
+            }
+        });
     });
 });
 
@@ -98,36 +105,60 @@ router.get('/:page/:id', function(req, res){
 
 // artwork update route
 router.put('/:page/:id', middleware.isLoggedIn, upload.single('image'), function(req, res){
-    cloudinary.uploader.upload(req.file.path, function(result){
-        // add cloudinary url for the image to the artwork object under image property
-        req.body.artwork.image = result.secure_url;
-    });
     // find artwork with provided id
-    Artwork.findByIdAndUpdate(req.params.id, req.body.artwork, function(err, updatedArtwork){
-        if (err) {
-            req.flash('error', err.message);
+    Artwork.findById(req.params.id, async function(err, foundArtwork){
+        if(err){
+            req.flash('error', 'Unable to find the artwork you want to edit.');
             // redirect to index route
-            res.redirect('/artworks/1');
-        } else {
-            // redirect to show route
-            res.redirect('/artworks/' + req.params.page + '/' + req.params.id);
+            return res.redirect('/artworks/' + req.params.page);
         }
+        // if a new file has been uploaded
+        if (req.file) {
+            try {
+                // delete previous upload from cloudinary
+                await cloudinary.v2.uploader.destroy(foundArtwork.imageId);
+                // upload new image to cloudinary
+                var result = await cloudinary.v2.uploader.upload(req.file.path);
+                // add cloudinary url for the image to the artwork object under image property
+                foundArtwork.image = result.secure_url;
+                foundArtwork.imageId = result.public_id;
+            } catch (err) {
+                req.flash('error', err.message);
+                // redirect to index route
+                return res.redirect('/artworks/' + req.params.page);
+            }
+        }
+        // save other fields to artwork whether or not a new file is uploaded
+        foundArtwork.title = req.body.artwork.title;
+        foundArtwork.desc = req.body.artwork.desc;
+        foundArtwork.save();
+        req.flash('success', 'Successfully updated artwork.');
+        // redirect to show route
+        res.redirect('/artworks/' + req.params.page + '/' + req.params.id);
     });
 });
 
 // artwork destroy route
 router.delete('/:page/:id', middleware.isLoggedIn, function(req, res){
-    // find artwork with provided id
-    Artwork.findByIdAndDelete(req.params.id, function(err){
+    // find artwork with the provided id
+    Artwork.findById(req.params.id, async function(err, foundArtwork){
         if (err) {
-            req.flash('error', err.message);
-            res.redirect('/artworks/' + req.params.page);
-        } else {
-            // redirect to index route
+            req.flash('error', 'Unable to find the artwork you want to delete.');
+            return res.redirect('/artworks/' + req.params.page);
+        }
+        try {
+            // delete image from cloudinary
+            await cloudinary.v2.uploader.destroy(foundArtwork.imageId);
+            // delete the artwork from database
+            foundArtwork.remove();
+            // flash success and redirect to index route
             req.flash('success', 'Artwork deleted.');
             res.redirect('/artworks/' + req.params.page);
+        } catch (err) {
+            req.flash('error', 'Unable to delete artwork image.');
+            return res.redirect('/artworks/' + req.params.page);
         }
-    })
+    });
 });
 
 module.exports = router;

@@ -1,6 +1,6 @@
 // AUTH ROUTES
 
-var   express     = require('express'),
+var   express       = require('express'),
         router      = express.Router(),
         passport    = require('passport'),
         User        = require('../models/user'),
@@ -10,7 +10,7 @@ var   express     = require('express'),
 router.get('/', function(req, res){
     Artworks.find({}, (err, artworks) => {
         if (err) {
-            req.flash('error', 'Could load artworks.');
+            req.flash('error', 'Error loading artworks.');
             res.redirect('/artworks/1');
         } else {
             res.render('home', {artworks: artworks.reverse()});

@@ -42,7 +42,7 @@ app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
 app.use(expressSession({
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24
+        maxAge: 1000 * 60 * 60 * 2 //in milliseconds
     },
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     secret: process.env.EXPRESS_SESSION_SECRET,

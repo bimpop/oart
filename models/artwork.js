@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var artworkSchema = new mongoose.Schema({
     title: String,
     image: String,
+    imageId: String,
     desc: String,
     createdAt: {type: Date, default: Date.now},
     author: {

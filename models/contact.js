@@ -6,6 +6,7 @@ var contactSchema = new mongoose.Schema({
     name: String,
     email: String,
     image: String,
+    imageId: String,
     message: String,
     status: {
         type: String,

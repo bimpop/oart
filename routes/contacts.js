@@ -1,6 +1,6 @@
 // CONTACTS ROUTES
 
-var   express     = require('express'),
+var   express       = require('express'),
         router      = express.Router(),
         Contact     = require('../models/contact'),
         middleware  = require('../middleware'),
@@ -54,25 +54,32 @@ router.get('/:page', middleware.isLoggedIn, function(req, res){
 });
 
 // contact create route
-router.post('/:page', middleware.isLoggedIn, upload.single('image'), function(req, res){
-    cloudinary.uploader.upload(req.file.path, function(result){
+router.post('/', upload.single('image'), function(req, res){
+    // upload the image to cloundinary then add other form data to database
+    cloudinary.v2.uploader.upload(req.file.path, function(err, result){
+        if (err) {
+            req.flash('error', 'Unable to upload image.');
+            return res.redirect('back');
+        }
         // add cloudinary url for the image to the artwork object under image property
         req.body.contact.image = result.secure_url;
-    });
-    Contact.create(req.body.contact, function(err, newContact){
-        if (err) {
-            console.log(err);
-            req.flash('error', 'Unable to send message.');
-            res.redirect('back');
-        } else {
-            req.flash('success', 'Message sent.');
-            res.redirect('back');
-        }
+        // add image's public_id to artwork object
+        req.body.contact.imageId = result.public_id;
+        Contact.create(req.body.contact, function(err, newContact){
+            if (err) {
+                console.log(err);
+                req.flash('error', 'Unable to send message.');
+                res.redirect('back');
+            } else {
+                req.flash('success', 'Message sent.');
+                res.redirect('back');
+            }
+        });
     });
 });
 
 // contact update route
-router.put('/:page/:contact_id', function(req, res){
+router.put('/:page/:contact_id', middleware.isLoggedIn, function(req, res){
     Contact.findById(req.params.contact_id, function(err, foundContact){
         if (err) {
             console.log(err);
@@ -94,16 +101,26 @@ router.put('/:page/:contact_id', function(req, res){
 });
 
 // contact delete route
-router.delete('/:page/:contact_id', function(req, res){
-    Contact.findByIdAndDelete(req.params.contact_id, function(err){
+router.delete('/:page/:contact_id', middleware.isLoggedIn, function(req, res){
+    // find the contact with the provided id
+    Contact.findById(req.params.id, async function(err, foundContact){
         if (err) {
-            console.log(err);
-            req.flash('error', 'Unable to find or delete the contact.');
-            res.redirect('back');
-        } else {
-            res.redirect('/contacts/' + req.params.page);
+            req.flash('error', 'Unable to find the contact you want to delete.');
+            return res.redirect('back');
         }
-    })
+        try {
+            // delete image from cloudinary
+            await cloudinary.v2.uploader.destroy(foundContact.imageId);
+            // delete the contact from database
+            foundContact.remove();
+            // flash success and redirect to index route
+            req.flash('success', 'Artwork deleted.');
+            res.redirect('back');
+        } catch (err) {
+            req.flash('error', 'Unable to delete the contact image.');
+            return res.redirect('back');
+        }
+    });
 });
 
 module.exports = router;
